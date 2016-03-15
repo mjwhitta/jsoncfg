@@ -2,6 +2,11 @@ require "json"
 require "pathname"
 
 class JSONConfig
+    def clear
+        @config = Hash.new
+        write_config
+    end
+
     def default_config
         # User will implement
     end

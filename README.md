@@ -7,7 +7,7 @@ options from/to a JSON file.
 
 ## How to install
 
-```bash
+```
 $ gem install json_config
 ```
 
@@ -31,7 +31,6 @@ config.set("newkey", "newval")
 
 ## Links
 
-- [Homepage](https://mjwhitta.github.io/json_config)
 - [Source](https://gitlab.com/mjwhitta/json_config)
 - [Mirror](https://github.com/mjwhitta/json_config)
 - [RubyGems](https://rubygems.org/gems/json_config)

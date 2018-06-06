@@ -32,7 +32,6 @@ config.set("newkey", "newval")
 ## Links
 
 - [Source](https://gitlab.com/mjwhitta/json_config)
-- [Mirror](https://github.com/mjwhitta/json_config)
 - [RubyGems](https://rubygems.org/gems/json_config)
 
 ## TODO

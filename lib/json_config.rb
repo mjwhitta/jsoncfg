@@ -94,7 +94,7 @@ class JSONConfig
     end
 
     def savediff
-        @diff = @config
+        @config = @diff
         write_config(true)
     end
 

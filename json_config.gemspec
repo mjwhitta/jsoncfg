@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name = "json_config"
-    s.version = "0.1.4"
+    s.version = "0.2.0"
     s.date = Time.new.strftime("%Y-%m-%d")
     s.summary = "Read/write from/to a JSON config file"
     s.description = "Read/write from/to a JSON config file."
@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
     s.files = Dir["lib/**/*.rb"]
     s.homepage = "https://gitlab.com/mjwhitta/json_config"
     s.license = "GPL-3.0"
-    s.add_development_dependency("rake", "~> 12.3", ">= 12.3.0")
+    s.add_development_dependency("rake", "~> 12.3", ">= 12.3.2")
 end

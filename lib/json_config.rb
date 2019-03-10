@@ -1,3 +1,4 @@
+require "fileutils"
 require "json"
 require "pathname"
 
@@ -9,10 +10,18 @@ class JSONConfig
 
     def default_config
         # User will implement
+        write_config
     end
 
     def get(key)
-        return @config[key]
+        case @config[key]
+        when /^\s*false\s*$/i, false
+            return false
+        when /^\s*true\s*$/i, true
+            return true
+        else
+            return @config[key]
+        end
     end
 
     def initialize(file)
@@ -31,11 +40,29 @@ class JSONConfig
     private :read_config
 
     def set(key, value)
-        @config[key] = value
+        case value
+        when /^\s*false\s*$/i, false
+            unsetbool(key)
+        when /^\s*true\s*$/i, true
+            setbool(key)
+        else
+            @config[key] = value
+            write_config
+        end
+    end
+
+    def setbool(key)
+        @config[key] = true
+        write_config
+    end
+
+    def unsetbool(key)
+        @config[key] = false
         write_config
     end
 
     def write_config
+        FileUtils.mkdir_p(@config_file.dirname)
         File.open(@config_file, "w") do |file|
             file.write(JSON.pretty_generate(@config))
         end

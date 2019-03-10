@@ -3,14 +3,42 @@ require "json"
 require "pathname"
 
 class JSONConfig
+    module Keys
+        def add_bool_key(key)
+            define_method "#{key}?" do
+                return get(key)
+            end
+            define_method key do
+                set(key, true)
+            end
+            define_method "no_#{key}" do
+                set(key, false)
+            end
+        end
+
+        def add_key(key)
+            define_method "#{key}?" do
+                return !@config[key].nil?
+            end
+            define_method "get_#{key}" do
+                return get(key)
+            end
+            define_method "set_#{key}" do |val|
+                set(key, val)
+            end
+        end
+    end
+
     def clear
         @config = Hash.new
+        @diff = Hash.new
         write_config
     end
 
-    def default_config
-        # User will implement
-        write_config
+    def default
+        @config = @defaults.clone
+        @diff = @defaults.clone
+        write_config(true)
     end
 
     def get(key)
@@ -24,19 +52,31 @@ class JSONConfig
         end
     end
 
-    def initialize(file, autosync = true)
-        @autosync = autosync
+    def getdiff(key)
+        case @diff[key]
+        when /^\s*false\s*$/i, false
+            return false
+        when /^\s*true\s*$/i, true
+            return true
+        else
+            return @diff[key]
+        end
+    end
+
+    def initialize(file, autosave = true)
+        @defaults ||= Hash.new
+        @autosave = autosave
         @config_file = Pathname.new(file).expand_path
         read_config
     end
 
     def read_config
         if (!@config_file.exist? && !@config_file.symlink?)
-            @config = Hash.new
-            default_config
+            @config = @defaults.clone
+            write_config(true)
         end
-
         @config = JSON.parse(File.read(@config_file))
+        @diff = @defaults.clone
     end
     private :read_config
 
@@ -45,7 +85,13 @@ class JSONConfig
     end
 
     def save
-        write_config
+        @diff = @defaults.clone
+        write_config(true)
+    end
+
+    def savediff
+        @diff = @config
+        write_config(true)
     end
 
     def set(key, value)
@@ -56,21 +102,26 @@ class JSONConfig
             setbool(key)
         else
             @config[key] = value
-            write_config if (@autosync)
+            @diff[key] = value
+            write_config
         end
     end
 
     def setbool(key)
         @config[key] = true
-        write_config if (@autosync)
+        @diff[key] = true
+        write_config
     end
 
     def unsetbool(key)
         @config[key] = false
-        write_config if (@autosync)
+        @diff[key] = false
+        write_config
     end
 
-    def write_config
+    def write_config(force = false)
+        return if (!@autosave && !force)
+
         FileUtils.mkdir_p(@config_file.dirname)
         File.open(@config_file, "w") do |file|
             file.write(JSON.pretty_generate(@config))

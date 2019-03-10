@@ -59,7 +59,7 @@ config.set_myarray([1, 2, 3, 4])
 config.save
 
 ## Only want to save the changes from default values?
-config.savediff # Diffs are calculated from last save
+config.savediff # Diffs are calculated from last manual save
 
 ## You can also reset changes
 config.reset

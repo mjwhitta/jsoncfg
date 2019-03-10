@@ -47,6 +47,10 @@ class JSONConfig
             return false
         when /^\s*true\s*$/i, true
             return true
+        when /^\s*\d+\s*$/
+            return @config[key].to_i
+        when /^\s*\d+\.\d+\s*$/
+            return @config[key].to_f
         else
             return @config[key]
         end
@@ -100,6 +104,14 @@ class JSONConfig
             unsetbool(key)
         when /^\s*true\s*$/i, true
             setbool(key)
+        when /^\s*\d+\s*$/
+            @config[key] = value.to_i
+            @diff[key] = value.to_i
+            write_config
+        when /^\s*\d+\.\d+\s*$/
+            @config[key] = value.to_f
+            @diff[key] = value.to_f
+            write_config
         else
             @config[key] = value
             @diff[key] = value

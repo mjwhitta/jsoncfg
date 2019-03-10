@@ -24,7 +24,8 @@ class JSONConfig
         end
     end
 
-    def initialize(file)
+    def initialize(file, autosync = true)
+        @autosync = autosync
         @config_file = Pathname.new(file).expand_path
         read_config
     end
@@ -39,6 +40,14 @@ class JSONConfig
     end
     private :read_config
 
+    def reset
+        read_config
+    end
+
+    def save
+        write_config
+    end
+
     def set(key, value)
         case value
         when /^\s*false\s*$/i, false
@@ -47,18 +56,18 @@ class JSONConfig
             setbool(key)
         else
             @config[key] = value
-            write_config
+            write_config if (@autosync)
         end
     end
 
     def setbool(key)
         @config[key] = true
-        write_config
+        write_config if (@autosync)
     end
 
     def unsetbool(key)
         @config[key] = false
-        write_config
+        write_config if (@autosync)
     end
 
     def write_config

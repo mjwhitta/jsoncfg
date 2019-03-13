@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name = "json_config"
-    s.version = "1.0.0"
+    s.version = "1.1.0"
     s.date = Time.new.strftime("%Y-%m-%d")
     s.summary = "Read/write from/to a JSON config file"
     s.description = "Read/write from/to a JSON config file."

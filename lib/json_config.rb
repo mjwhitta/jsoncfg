@@ -38,7 +38,7 @@ class JSONConfig
     def default
         @config = @defaults.clone
         @diff = @defaults.clone
-        write_config(true)
+        write_config
     end
 
     def get(key)

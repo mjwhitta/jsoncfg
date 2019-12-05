@@ -7,6 +7,8 @@ options from/to a JSON file.
 
 ## How to install
 
+Open a terminal and run the following:
+
 ```
 $ gem install json_config
 ```
@@ -67,7 +69,7 @@ config.reset
 
 ## Links
 
-- [Source](https://gitlab.com/mjwhitta/json_config)
+- [Source](https://gitlab.com/mjwhitta/json_config/tree/ruby)
 - [RubyGems](https://rubygems.org/gems/json_config)
 
 ## TODO

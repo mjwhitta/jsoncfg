@@ -10,7 +10,7 @@ options from/to a JSON file.
 Open a terminal and run the following:
 
 ```
-$ gem install json_config
+$ gem install jsoncfg
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ $ gem install json_config
 ```ruby
 #!/usr/bin/env ruby
 
-require "json_config"
+require "jsoncfg"
 
 # Sample implementation
 class MyConfig < JSONConfig
@@ -69,8 +69,8 @@ config.reset
 
 ## Links
 
-- [Source](https://gitlab.com/mjwhitta/json_config/tree/ruby)
-- [RubyGems](https://rubygems.org/gems/json_config)
+- [Source](https://gitlab.com/mjwhitta/jsoncfg/tree/ruby)
+- [RubyGems](https://rubygems.org/gems/jsoncfg)
 
 ## TODO
 

@@ -5,10 +5,10 @@ Gem::Specification.new do |s|
     s.description = "Read/write from/to a JSON config file."
     s.email = "mj@whitta.dev"
     s.files = Dir["lib/**/*.rb"]
-    s.homepage = "https://gitlab.com/mjwhitta/json_config/tree/ruby"
+    s.homepage = "https://gitlab.com/mjwhitta/jsoncfg/tree/ruby"
     s.license = "GPL-3.0"
     s.metadata = {"source_code_uri" => s.homepage}
-    s.name = "json_config"
+    s.name = "jsoncfg"
     s.summary = "Read/write from/to a JSON config file"
-    s.version = "1.1.2"
+    s.version = "1.1.3"
 end

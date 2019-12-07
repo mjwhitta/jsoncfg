@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
     s.metadata = {"source_code_uri" => s.homepage}
     s.name = "jsoncfg"
     s.summary = "Read/write from/to a JSON config file"
-    s.version = "1.1.3"
+    s.version = "1.1.4"
 end

@@ -1,4 +1,4 @@
-# json_config
+# jsoncfg
 
 ## What is this?
 
@@ -10,7 +10,7 @@ options from/to a JSON file.
 Open a terminal and run the following:
 
 ```
-$ go get -u gitlab.com/mjwhitta/json_config
+$ go get -u gitlab.com/mjwhitta/jsoncfg
 ```
 
 ## Usage
@@ -19,57 +19,57 @@ $ go get -u gitlab.com/mjwhitta/json_config
 package main
 
 import (
-    "gitlab.com/mjwhitta/json_config"
+    hl "gitlab.com/mjwhitta/hilighter"
+    "gitlab.com/mjwhitta/jsoncfg"
 )
 
-TODO
-# Sample implementation
-class MyConfig < JSONConfig
-    extend JSONConfig::Keys
+// Create a jsoncfg object
+var config = jsoncfg.New("/tmp/rcfile")
 
-    add_key("myarray")
-    add_bool_key("mybool")
-    add_key("mystr")
+// Or if you want changes to be written to disk immediately
+// var config = jsoncfg.NewAutosave("/tmp/rcfile")
 
-    def initialize(file = nil)
-        file ||= "~/.config/somedir/rc"
-        @defaults = {
-            "myarray" => Array.new,
-            "myboolkey" => true,
-            "mystr" => "asdf"
+// Initialize default values
+func init() {
+    config.SetDefault("myArray", []interface{}{})
+    config.SetDefault("myBool", true)
+    config.SetDefault("myStr", "asdf")
+    config.SaveDefault()
+    config.Reset()
+}
+
+func main() {
+    defer func() {
+        if r := recover(); r != nil {
+            hl.PrintlnRed(r.(error).Error())
         }
-        autosave = false # Should changes be written immediately?
-        super(file, autosave)
-    end
-end
+    }()
 
-# Sample usage
+    // Check if option exists, then get current value
+    if config.Has("myBool") {
+        hl.Printf("myBool exists and is %v\n", config.Get("myBool"))
+    }
 
-## Create cofnig
-config = MyConfig.new
+    // Set new value (changes aren't written unless autosave was used)
+    config.Set("myBool", false)
 
-## Check if option exists, then get current value
-if (config.mystr?)
-    puts "mystr exists and is equal to #{config.get_mystr}"
-end
+    // Manually save changes
+    config.Save()
 
-## Set new value (changes aren't written unless autosave was true)
-config.set_mystr("test")
+    // More changes plus save
+    config.Set("myArray", []int{1, 2, 3, 4})
+    config.Save()
 
-## Manually save changes
-config.save
+    // You can also reset changes
+    config.Set("myBool", true)
+    config.Reset()
 
-## More changes plus save
-config.set_myarray([1, 2, 3, 4])
-config.save
-
-## Only want to save the changes from default values?
-config.savediff # Diffs are calculated from last manual save
-
-## You can also reset changes
-config.reset
+    // Only want to save the changes from default values?
+    config.Set("myStr", "blah")
+    config.SaveDiff() // Diffs are calculated from last manual save
+}
 ```
 
 ## Links
 
-- [Source](https://gitlab.com/mjwhitta/json_config)
+- [Source](https://gitlab.com/mjwhitta/jsoncfg)

@@ -2,8 +2,8 @@ package jsoncfg
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"os"
 
 	"gitlab.com/mjwhitta/pathname"
 )
@@ -25,7 +25,9 @@ func (c *jsoncfg) Clear() {
 }
 
 func (c *jsoncfg) Default() error {
-	var e = json.Unmarshal(c.defaultConfig, &c.config)
+	var e error
+
+	e = json.Unmarshal(c.defaultConfig, &c.config)
 	if e != nil {
 		return e
 	}
@@ -48,7 +50,8 @@ func (c *jsoncfg) GetDiff(key string) interface{} {
 }
 
 func (c *jsoncfg) Has(key string) bool {
-	var _, hasKey = c.diff[key]
+	var hasKey bool
+	_, hasKey = c.diff[key]
 	return hasKey
 }
 
@@ -74,30 +77,16 @@ func NewAutosave(file string) jsoncfg {
 	}
 }
 
-// FIXME remove
-func (c *jsoncfg) Print() error {
-	var config, e = json.MarshalIndent(c.config, "", "  ")
-	if e != nil {
-		return e
-	}
-
-	fmt.Println(string(config))
-	return nil
-}
-
-// FIXME remove
-func (c *jsoncfg) PrintDefault() {
-	fmt.Println(string(c.defaultConfig))
-}
-
 func (c *jsoncfg) read() error {
-	// TODO check if symlink
 	if !pathname.Exists(c.File) {
 		c.Default()
 		c.write(true)
 	}
 
-	var config, e = ioutil.ReadFile(c.File)
+	var config []byte
+	var e error
+
+	config, e = ioutil.ReadFile(c.File)
 	if e != nil {
 		return e
 	}
@@ -120,7 +109,9 @@ func (c *jsoncfg) Reset() error {
 }
 
 func (c *jsoncfg) Save() error {
-	var e = json.Unmarshal(c.defaultConfig, &c.diff)
+	var e error
+
+	e = json.Unmarshal(c.defaultConfig, &c.diff)
 	if e != nil {
 		return e
 	}
@@ -129,7 +120,10 @@ func (c *jsoncfg) Save() error {
 }
 
 func (c *jsoncfg) SaveDiff() error {
-	var diff, e = json.Marshal(c.diff)
+	var diff []byte
+	var e error
+
+	diff, e = json.Marshal(c.diff)
 	if e != nil {
 		return e
 	}
@@ -143,7 +137,10 @@ func (c *jsoncfg) SaveDiff() error {
 }
 
 func (c *jsoncfg) SaveDefault() error {
-	var config, e = json.Marshal(c.config)
+	var config []byte
+	var e error
+
+	config, e = json.Marshal(c.config)
 	if e != nil {
 		return e
 	}
@@ -168,8 +165,15 @@ func (c *jsoncfg) write(force bool) error {
 		return nil
 	}
 
-	// TODO make parent directory first
-	var config, e = json.MarshalIndent(c.config, "", "  ")
+	var config []byte
+	var e error
+
+	e = os.MkdirAll(pathname.Dirname(c.File), os.ModePerm)
+	if e != nil {
+		return e
+	}
+
+	config, e = json.MarshalIndent(c.config, "", "  ")
 	if e != nil {
 		return e
 	}

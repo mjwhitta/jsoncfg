@@ -24,7 +24,7 @@ import (
 )
 
 // Create a jsoncfg object
-var config = jsoncfg.New("/tmp/rcfile")
+var config = jsoncfg.New("/tmp/asdf/rcfile")
 
 // Or if you want changes to be written to disk immediately
 // var config = jsoncfg.NewAutosave("/tmp/rcfile")

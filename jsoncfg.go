@@ -8,7 +8,7 @@ import (
 	"gitlab.com/mjwhitta/pathname"
 )
 
-const Version = "1.1.3"
+const Version = "1.1.4"
 
 type jsoncfg struct {
 	autosave      bool
@@ -78,7 +78,7 @@ func NewAutosave(file string) jsoncfg {
 }
 
 func (c *jsoncfg) read() error {
-	if !pathname.Exists(c.File) {
+	if !pathname.DoesExist(c.File) {
 		c.Default()
 		c.write(true)
 	}

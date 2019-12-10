@@ -1,4 +1,7 @@
-all: fmt
+all: build
+
+build: fmt
+	@go build .
 
 check:
 	@which go >/dev/null 2>&1

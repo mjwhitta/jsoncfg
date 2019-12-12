@@ -8,14 +8,11 @@ import (
 	"gitlab.com/mjwhitta/pathname"
 )
 
-// Version is the package version.
-const Version = "1.1.7"
-
-// Jsoncfg is a struct that handles a JSON formatted config file on
+// JsonCfg is a struct that handles a JSON formatted config file on
 // disk. It contains the filename, the running config, the default
 // config, and any changes from default. If autosave is true, changes
 // are written to disk immediately.
-type Jsoncfg struct {
+type JsonCfg struct {
 	autosave      bool
 	config        map[string]interface{}
 	defaultConfig []byte
@@ -23,8 +20,30 @@ type Jsoncfg struct {
 	File          string
 }
 
+// New is a JsonCfg constructor where autosave is false.
+func New(file string) *JsonCfg {
+	return &JsonCfg{
+		autosave:      false,
+		config:        map[string]interface{}{},
+		defaultConfig: []byte{},
+		diff:          map[string]interface{}{},
+		File:          pathname.ExpandPath(file),
+	}
+}
+
+// NewAutosave is a JsonCfg constructor where autosave is true.
+func NewAutosave(file string) *JsonCfg {
+	return &JsonCfg{
+		autosave:      true,
+		config:        map[string]interface{}{},
+		defaultConfig: []byte{},
+		diff:          map[string]interface{}{},
+		File:          pathname.ExpandPath(file),
+	}
+}
+
 // Clear will erase the config struct.
-func (c *Jsoncfg) Clear() {
+func (c *JsonCfg) Clear() {
 	c.config = map[string]interface{}{}
 	c.diff = map[string]interface{}{}
 	c.write(false)
@@ -32,7 +51,7 @@ func (c *Jsoncfg) Clear() {
 
 // Default will return the config struct to a pre-configured default
 // state.
-func (c *Jsoncfg) Default() error {
+func (c *JsonCfg) Default() error {
 	var e error
 
 	e = json.Unmarshal(c.defaultConfig, &c.config)
@@ -50,46 +69,24 @@ func (c *Jsoncfg) Default() error {
 }
 
 // Get will return a key from the config struct.
-func (c *Jsoncfg) Get(key string) interface{} {
+func (c *JsonCfg) Get(key string) interface{} {
 	return c.config[key]
 }
 
 // GetDiff will return a key from the diff map in the config struct.
-func (c *Jsoncfg) GetDiff(key string) interface{} {
+func (c *JsonCfg) GetDiff(key string) interface{} {
 	return c.diff[key]
 }
 
 // Has will return true if the config struct has the specified key,
 // false otherwise.
-func (c *Jsoncfg) Has(key string) bool {
+func (c *JsonCfg) Has(key string) bool {
 	var hasKey bool
 	_, hasKey = c.diff[key]
 	return hasKey
 }
 
-// New is a Jsoncfg constructor where autosave is false.
-func New(file string) *Jsoncfg {
-	return &Jsoncfg{
-		autosave:      false,
-		config:        map[string]interface{}{},
-		defaultConfig: []byte{},
-		diff:          map[string]interface{}{},
-		File:          pathname.ExpandPath(file),
-	}
-}
-
-// NewAutosave is a Jsoncfg constructor where autosave is true.
-func NewAutosave(file string) *Jsoncfg {
-	return &Jsoncfg{
-		autosave:      true,
-		config:        map[string]interface{}{},
-		defaultConfig: []byte{},
-		diff:          map[string]interface{}{},
-		File:          pathname.ExpandPath(file),
-	}
-}
-
-func (c *Jsoncfg) read() error {
+func (c *JsonCfg) read() error {
 	if !pathname.DoesExist(c.File) {
 		c.Default()
 		c.write(true)
@@ -117,12 +114,12 @@ func (c *Jsoncfg) read() error {
 }
 
 // Reset will read the config from disk, erasing any unsaved changes.
-func (c *Jsoncfg) Reset() error {
+func (c *JsonCfg) Reset() error {
 	return c.read()
 }
 
 // Save will save any unsaved changes to disk.
-func (c *Jsoncfg) Save() error {
+func (c *JsonCfg) Save() error {
 	var e error
 
 	e = json.Unmarshal(c.defaultConfig, &c.diff)
@@ -134,7 +131,7 @@ func (c *Jsoncfg) Save() error {
 }
 
 // SaveDiff will save only the changes from default to disk.
-func (c *Jsoncfg) SaveDiff() error {
+func (c *JsonCfg) SaveDiff() error {
 	var diff []byte
 	var e error
 
@@ -152,7 +149,7 @@ func (c *Jsoncfg) SaveDiff() error {
 }
 
 // SaveDefault will save the default map for use by Default().
-func (c *Jsoncfg) SaveDefault() error {
+func (c *JsonCfg) SaveDefault() error {
 	var config []byte
 	var e error
 
@@ -167,7 +164,7 @@ func (c *Jsoncfg) SaveDefault() error {
 
 // Set will set the specified value for the specified key in the
 // config struct.
-func (c *Jsoncfg) Set(key string, value interface{}) error {
+func (c *JsonCfg) Set(key string, value interface{}) error {
 	c.config[key] = value
 	c.diff[key] = value
 	return c.write(false)
@@ -176,12 +173,12 @@ func (c *Jsoncfg) Set(key string, value interface{}) error {
 // SetDefault will set the specified value for the specified key in
 // the config struct. It will not write changes to disk ever and is
 // intended to be used prior to SaveDefault().
-func (c *Jsoncfg) SetDefault(key string, value interface{}) {
+func (c *JsonCfg) SetDefault(key string, value interface{}) {
 	c.config[key] = value
 	c.diff[key] = value
 }
 
-func (c *Jsoncfg) write(force bool) error {
+func (c *JsonCfg) write(force bool) error {
 	if !c.autosave && !force {
 		return nil
 	}

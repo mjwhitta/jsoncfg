@@ -9,7 +9,7 @@ import (
 )
 
 // Version is the package version.
-const Version = "1.1.5"
+const Version = "1.1.6"
 
 // Jsoncfg is a struct that handles a JSON formatted config file on
 // disk. It contains the filename, the running config, the default

@@ -9,7 +9,7 @@ import (
 )
 
 // Version is the package version.
-const Version = "1.1.6"
+const Version = "1.1.7"
 
 // Jsoncfg is a struct that handles a JSON formatted config file on
 // disk. It contains the filename, the running config, the default
@@ -79,8 +79,8 @@ func New(file string) *Jsoncfg {
 }
 
 // NewAutosave is a Jsoncfg constructor where autosave is true.
-func NewAutosave(file string) Jsoncfg {
-	return Jsoncfg{
+func NewAutosave(file string) *Jsoncfg {
+	return &Jsoncfg{
 		autosave:      true,
 		config:        map[string]interface{}{},
 		defaultConfig: []byte{},

@@ -64,8 +64,7 @@ func (c *JSONCfg) Default() error {
 		return e
 	}
 
-	c.write(false)
-	return nil
+	return c.write(false)
 }
 
 // Get will return a key from the config struct.
@@ -87,13 +86,13 @@ func (c *JSONCfg) Has(key string) bool {
 }
 
 func (c *JSONCfg) read() error {
+	var config []byte
+	var e error
+
 	if !pathname.DoesExist(c.File) {
 		c.Default()
 		c.write(true)
 	}
-
-	var config []byte
-	var e error
 
 	config, e = ioutil.ReadFile(c.File)
 	if e != nil {
@@ -105,12 +104,7 @@ func (c *JSONCfg) read() error {
 		return e
 	}
 
-	e = json.Unmarshal(c.defaultConfig, &c.diff)
-	if e != nil {
-		return e
-	}
-
-	return nil
+	return json.Unmarshal(c.defaultConfig, &c.diff)
 }
 
 // Reset will read the config from disk, erasing any unsaved changes.

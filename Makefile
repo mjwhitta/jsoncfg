@@ -12,3 +12,6 @@ clena: clean
 
 fmt: check
 	@go fmt .
+
+gen: check
+	@go generate

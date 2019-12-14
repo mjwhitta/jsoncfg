@@ -15,7 +15,7 @@ import (
 type JSONCfg struct {
 	autosave      bool
 	config        map[string]interface{}
-	defaultConfig []byte
+	defaultConfig string
 	diff          map[string]interface{}
 	File          string
 }
@@ -25,7 +25,7 @@ func New(file string) *JSONCfg {
 	return &JSONCfg{
 		autosave:      false,
 		config:        map[string]interface{}{},
-		defaultConfig: []byte{},
+		defaultConfig: "",
 		diff:          map[string]interface{}{},
 		File:          pathname.ExpandPath(file),
 	}
@@ -33,13 +33,12 @@ func New(file string) *JSONCfg {
 
 // NewAutosave is a JSONCfg constructor where autosave is true.
 func NewAutosave(file string) *JSONCfg {
-	return &JSONCfg{
-		autosave:      true,
-		config:        map[string]interface{}{},
-		defaultConfig: []byte{},
-		diff:          map[string]interface{}{},
-		File:          pathname.ExpandPath(file),
-	}
+	var c *JSONCfg
+
+	c = New(file)
+	c.autosave = true
+
+	return c
 }
 
 // Clear will erase the config struct.
@@ -54,27 +53,17 @@ func (c *JSONCfg) Clear() {
 func (c *JSONCfg) Default() error {
 	var e error
 
-	e = json.Unmarshal(c.defaultConfig, &c.config)
+	e = json.Unmarshal([]byte(c.defaultConfig), &c.config)
 	if e != nil {
 		return e
 	}
 
-	e = json.Unmarshal(c.defaultConfig, &c.diff)
+	e = json.Unmarshal([]byte(c.defaultConfig), &c.diff)
 	if e != nil {
 		return e
 	}
 
 	return c.write(false)
-}
-
-// Get will return a key from the config struct.
-func (c *JSONCfg) Get(key string) interface{} {
-	return c.config[key]
-}
-
-// GetDiff will return a key from the diff map in the config struct.
-func (c *JSONCfg) GetDiff(key string) interface{} {
-	return c.diff[key]
 }
 
 // Has will return true if the config struct has the specified key,
@@ -94,17 +83,15 @@ func (c *JSONCfg) read() error {
 		c.write(true)
 	}
 
-	config, e = ioutil.ReadFile(c.File)
-	if e != nil {
+	if config, e = ioutil.ReadFile(c.File); e != nil {
 		return e
 	}
 
-	e = json.Unmarshal([]byte(config), &c.config)
-	if e != nil {
+	if e = json.Unmarshal([]byte(config), &c.config); e != nil {
 		return e
 	}
 
-	return json.Unmarshal(c.defaultConfig, &c.diff)
+	return json.Unmarshal([]byte(c.defaultConfig), &c.diff)
 }
 
 // Reset will read the config from disk, erasing any unsaved changes.
@@ -116,7 +103,7 @@ func (c *JSONCfg) Reset() error {
 func (c *JSONCfg) Save() error {
 	var e error
 
-	e = json.Unmarshal(c.defaultConfig, &c.diff)
+	e = json.Unmarshal([]byte(c.defaultConfig), &c.diff)
 	if e != nil {
 		return e
 	}
@@ -129,13 +116,11 @@ func (c *JSONCfg) SaveDiff() error {
 	var diff []byte
 	var e error
 
-	diff, e = json.Marshal(c.diff)
-	if e != nil {
+	if diff, e = json.Marshal(c.diff); e != nil {
 		return e
 	}
 
-	e = json.Unmarshal(diff, &c.config)
-	if e != nil {
+	if e = json.Unmarshal(diff, &c.config); e != nil {
 		return e
 	}
 
@@ -147,12 +132,11 @@ func (c *JSONCfg) SaveDefault() error {
 	var config []byte
 	var e error
 
-	config, e = json.Marshal(c.config)
-	if e != nil {
+	if config, e = json.Marshal(c.config); e != nil {
 		return e
 	}
 
-	c.defaultConfig = config
+	c.defaultConfig = string(config)
 	return nil
 }
 
@@ -185,8 +169,7 @@ func (c *JSONCfg) write(force bool) error {
 		return e
 	}
 
-	config, e = json.MarshalIndent(c.config, "", "  ")
-	if e != nil {
+	if config, e = json.MarshalIndent(c.config, "", "  "); e != nil {
 		return e
 	}
 

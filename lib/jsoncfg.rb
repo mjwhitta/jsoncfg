@@ -18,7 +18,12 @@ class JSONConfig
 
         def add_key(key)
             define_method "#{key}?" do
-                return !@config[key].nil?
+                return false if @config[key].nil?
+                begin
+                    return !@config[key].empty?
+                rescue
+                    return true
+                end
             end
             define_method "get_#{key}" do
                 return get(key)

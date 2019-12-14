@@ -29,6 +29,22 @@ generate_get_funcs() {
 
     for func in "Get" "GetDiff"; do
         case "$type" in
+            "")
+        cat <<EOF
+func (c *JSONCfg) $func(key string) interface{} {
+    return c.config[key]
+}
+
+func (c *JSONCfg) ${func}Array(key string) []interface{} {
+    return c.config[key].([]interface{})
+}
+
+func (c *JSONCfg) ${func}Map(key string) map[string]interface{} {
+    return c.config[key].(map[string]interface{})
+}
+
+EOF
+                ;;
             "bool"|"string")
         cat <<EOF
 func (c *JSONCfg) $func${type^}(key string) $type {
@@ -133,6 +149,7 @@ package jsoncfg
 
 $(
     for thetype in \
+        "" \
         bool \
         float32 float64 \
         int int16 int32 int64 \

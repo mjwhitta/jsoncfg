@@ -462,11 +462,33 @@ func (c *JSONCfg) GetString(key string) string {
 }
 
 func (c *JSONCfg) GetStringArray(key string) []string {
-	return c.config[key].([]string)
+	var ok bool
+	var val = []string{}
+
+	if val, ok = c.config[key].([]string); ok {
+		return val
+	}
+
+	for _, v := range c.config[key].([]interface{}) {
+		val = append(val, v.(string))
+	}
+
+	return val
 }
 
 func (c *JSONCfg) GetStringMap(key string) map[string]string {
-	return c.config[key].(map[string]string)
+	var ok bool
+	var val = map[string]string{}
+
+	if val, ok = c.config[key].(map[string]string); ok {
+		return val
+	}
+
+	for k, v := range c.config[key].(map[string]interface{}) {
+		val[k] = v.(string)
+	}
+
+	return val
 }
 
 func (c *JSONCfg) GetDiffString(key string) string {
@@ -474,11 +496,33 @@ func (c *JSONCfg) GetDiffString(key string) string {
 }
 
 func (c *JSONCfg) GetDiffStringArray(key string) []string {
-	return c.config[key].([]string)
+	var ok bool
+	var val = []string{}
+
+	if val, ok = c.config[key].([]string); ok {
+		return val
+	}
+
+	for _, v := range c.config[key].([]interface{}) {
+		val = append(val, v.(string))
+	}
+
+	return val
 }
 
 func (c *JSONCfg) GetDiffStringMap(key string) map[string]string {
-	return c.config[key].(map[string]string)
+	var ok bool
+	var val = map[string]string{}
+
+	if val, ok = c.config[key].(map[string]string); ok {
+		return val
+	}
+
+	for k, v := range c.config[key].(map[string]interface{}) {
+		val[k] = v.(string)
+	}
+
+	return val
 }
 
 func (c *JSONCfg) GetUint(key string) uint {

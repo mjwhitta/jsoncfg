@@ -45,7 +45,7 @@ func (c *JSONCfg) ${func}Map(key string) map[string]interface{} {
 
 EOF
                 ;;
-            "bool"|"string")
+            "bool")
         cat <<EOF
 func (c *JSONCfg) $func${type^}(key string) $type {
     return c.config[key].($type)
@@ -92,6 +92,44 @@ func (c *JSONCfg) $func${type^}Map(key string) map[string]$type {
 
     for k, v := range c.config[key].(map[string]interface{}) {
         val[k] = $type(v.(float64))
+    }
+
+    return val
+}
+
+EOF
+                ;;
+            "string")
+        cat <<EOF
+func (c *JSONCfg) $func${type^}(key string) $type {
+    return c.config[key].($type)
+}
+
+func (c *JSONCfg) $func${type^}Array(key string) []$type {
+    var ok bool
+    var val = []$type{}
+
+    if val, ok = c.config[key].([]$type); ok {
+        return val
+    }
+
+    for _, v := range c.config[key].([]interface{}) {
+        val = append(val, v.(string))
+    }
+
+    return val
+}
+
+func (c *JSONCfg) $func${type^}Map(key string) map[string]$type {
+    var ok bool
+    var val = map[string]$type{}
+
+    if val, ok = c.config[key].(map[string]$type); ok {
+        return val
+    }
+
+    for k, v := range c.config[key].(map[string]interface{}) {
+        val[k] = v.(string)
     }
 
     return val

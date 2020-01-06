@@ -32,15 +32,15 @@ generate_funcs() {
             "")
         cat <<EOF
 func (c *JSONCfg) $func(key string) interface{} {
-    return c.getNestedKey(key)
+    return c.nested${func}Key(key)
 }
 
 func (c *JSONCfg) ${func}Array(key string) []interface{} {
-    return c.getNestedKey(key).([]interface{})
+    return c.nested${func}Key(key).([]interface{})
 }
 
 func (c *JSONCfg) ${func}Map(key string) map[string]interface{} {
-    return c.getNestedKey(key).(map[string]interface{})
+    return c.nested${func}Key(key).(map[string]interface{})
 }
 
 EOF
@@ -48,15 +48,15 @@ EOF
             "bool")
         cat <<EOF
 func (c *JSONCfg) $func${type^}(key string) $type {
-    return c.getNestedKey(key).($type)
+    return c.nested${func}Key(key).($type)
 }
 
 func (c *JSONCfg) $func${type^}Array(key string) []$type {
-    return c.getNestedKey(key).([]$type)
+    return c.nested${func}Key(key).([]$type)
 }
 
 func (c *JSONCfg) $func${type^}Map(key string) map[string]$type {
-    return c.getNestedKey(key).(map[string]$type)
+    return c.nested${func}Key(key).(map[string]$type)
 }
 
 EOF
@@ -64,18 +64,25 @@ EOF
             "float"*|"int"*|"uint"*)
         cat <<EOF
 func (c *JSONCfg) $func${type^}(key string) $type {
-    return $type(c.getNestedKey(key).(float64))
+    var ok bool
+    var val $type
+
+    if val, ok = c.nested${func}Key(key).($type); ok {
+        return val
+    }
+
+    return $type(c.nested${func}Key(key).(float64))
 }
 
 func (c *JSONCfg) $func${type^}Array(key string) []$type {
     var ok bool
     var val = []$type{}
 
-    if val, ok = c.getNestedKey(key).([]$type); ok {
+    if val, ok = c.nested${func}Key(key).([]$type); ok {
         return val
     }
 
-    for _, v := range c.getNestedKey(key).([]interface{}) {
+    for _, v := range c.nested${func}Key(key).([]interface{}) {
         val = append(val, $type(v.(float64)))
     }
 
@@ -86,11 +93,11 @@ func (c *JSONCfg) $func${type^}Map(key string) map[string]$type {
     var ok bool
     var val = map[string]$type{}
 
-    if val, ok = c.getNestedKey(key).(map[string]$type); ok {
+    if val, ok = c.nested${func}Key(key).(map[string]$type); ok {
         return val
     }
 
-    for k, v := range c.getNestedKey(key).(map[string]interface{}) {
+    for k, v := range c.nested${func}Key(key).(map[string]interface{}) {
         val[k] = $type(v.(float64))
     }
 
@@ -102,18 +109,18 @@ EOF
             "string")
         cat <<EOF
 func (c *JSONCfg) $func${type^}(key string) $type {
-    return c.getNestedKey(key).($type)
+    return c.nested${func}Key(key).($type)
 }
 
 func (c *JSONCfg) $func${type^}Array(key string) []$type {
     var ok bool
     var val = []$type{}
 
-    if val, ok = c.getNestedKey(key).([]$type); ok {
+    if val, ok = c.nested${func}Key(key).([]$type); ok {
         return val
     }
 
-    for _, v := range c.getNestedKey(key).([]interface{}) {
+    for _, v := range c.nested${func}Key(key).([]interface{}) {
         val = append(val, v.(string))
     }
 
@@ -124,11 +131,11 @@ func (c *JSONCfg) $func${type^}Map(key string) map[string]$type {
     var ok bool
     var val = map[string]$type{}
 
-    if val, ok = c.getNestedKey(key).(map[string]$type); ok {
+    if val, ok = c.nested${func}Key(key).(map[string]$type); ok {
         return val
     }
 
-    for k, v := range c.getNestedKey(key).(map[string]interface{}) {
+    for k, v := range c.nested${func}Key(key).(map[string]interface{}) {
         val[k] = v.(string)
     }
 
@@ -187,7 +194,18 @@ package jsoncfg
 
 import "strings"
 
-func (c *JSONCfg) getNestedKey(key string) interface{} {
+func (c *JSONCfg) nestedGetDiffKey(key string) interface{} {
+    var keys = strings.Split(key, ".")
+    var val interface{} = c.diff
+
+    for _, key := range keys {
+        val = val.(map[string]interface{})[key]
+    }
+
+    return val
+}
+
+func (c *JSONCfg) nestedGetKey(key string) interface{} {
     var keys = strings.Split(key, ".")
     var val interface{} = c.config
 

@@ -1,10 +1,10 @@
 package jsoncfg
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"os"
 
+	"gitlab.com/mjwhitta/jq"
 	"gitlab.com/mjwhitta/pathname"
 )
 
@@ -14,19 +14,25 @@ import (
 // are written to disk immediately.
 type JSONCfg struct {
 	autosave      bool
-	config        map[string]interface{}
+	config        *jq.JSON
 	defaultConfig string
-	diff          map[string]interface{}
+	diff          *jq.JSON
 	File          string
 }
 
 // New is a JSONCfg constructor where autosave is false.
 func New(file string) *JSONCfg {
+	var config *jq.JSON
+	var diff *jq.JSON
+
+	config, _ = jq.New("{}")
+	diff, _ = jq.New("{}")
+
 	return &JSONCfg{
 		autosave:      false,
-		config:        map[string]interface{}{},
+		config:        config,
 		defaultConfig: "",
-		diff:          map[string]interface{}{},
+		diff:          diff,
 		File:          pathname.ExpandPath(file),
 	}
 }
@@ -43,8 +49,8 @@ func NewAutosave(file string) *JSONCfg {
 
 // Clear will erase the config struct.
 func (c *JSONCfg) Clear() {
-	c.config = map[string]interface{}{}
-	c.diff = map[string]interface{}{}
+	c.config.SetBlob("{}")
+	c.diff.SetBlob("{}")
 	c.write(false)
 }
 
@@ -53,13 +59,11 @@ func (c *JSONCfg) Clear() {
 func (c *JSONCfg) Default() error {
 	var e error
 
-	e = json.Unmarshal([]byte(c.defaultConfig), &c.config)
-	if e != nil {
+	if e = c.config.SetBlob(c.defaultConfig); e != nil {
 		return e
 	}
 
-	e = json.Unmarshal([]byte(c.defaultConfig), &c.diff)
-	if e != nil {
+	if e = c.diff.SetBlob(c.defaultConfig); e != nil {
 		return e
 	}
 
@@ -69,9 +73,7 @@ func (c *JSONCfg) Default() error {
 // Has will return true if the config struct has the specified key,
 // false otherwise.
 func (c *JSONCfg) Has(key string) bool {
-	var hasKey bool
-	_, hasKey = c.diff[key]
-	return hasKey
+	return c.diff.Has(key)
 }
 
 func (c *JSONCfg) read() error {
@@ -87,11 +89,11 @@ func (c *JSONCfg) read() error {
 		return e
 	}
 
-	if e = json.Unmarshal([]byte(config), &c.config); e != nil {
+	if e = c.config.SetBlob(string(config)); e != nil {
 		return e
 	}
 
-	return json.Unmarshal([]byte(c.defaultConfig), &c.diff)
+	return c.diff.SetBlob(c.defaultConfig)
 }
 
 // Reset will read the config from disk, erasing any unsaved changes.
@@ -103,8 +105,7 @@ func (c *JSONCfg) Reset() error {
 func (c *JSONCfg) Save() error {
 	var e error
 
-	e = json.Unmarshal([]byte(c.defaultConfig), &c.diff)
-	if e != nil {
+	if e = c.diff.SetBlob(c.defaultConfig); e != nil {
 		return e
 	}
 
@@ -113,14 +114,14 @@ func (c *JSONCfg) Save() error {
 
 // SaveDiff will save only the changes from default to disk.
 func (c *JSONCfg) SaveDiff() error {
-	var diff []byte
+	var diff string
 	var e error
 
-	if diff, e = json.Marshal(c.diff); e != nil {
+	if diff, e = c.diff.GetBlob(); e != nil {
 		return e
 	}
 
-	if e = json.Unmarshal(diff, &c.config); e != nil {
+	if e = c.config.SetBlob(diff); e != nil {
 		return e
 	}
 
@@ -129,22 +130,22 @@ func (c *JSONCfg) SaveDiff() error {
 
 // SaveDefault will save the default map for use by Default().
 func (c *JSONCfg) SaveDefault() error {
-	var config []byte
+	var config string
 	var e error
 
-	if config, e = json.Marshal(c.config); e != nil {
+	if config, e = c.config.GetBlob(); e != nil {
 		return e
 	}
 
-	c.defaultConfig = string(config)
+	c.defaultConfig = config
 	return nil
 }
 
 // Set will set the specified value for the specified key in the
 // config struct.
 func (c *JSONCfg) Set(key string, value interface{}) error {
-	c.config[key] = value
-	c.diff[key] = value
+	c.config.Set(key, value)
+	c.diff.Set(key, value)
 	return c.write(false)
 }
 
@@ -152,8 +153,8 @@ func (c *JSONCfg) Set(key string, value interface{}) error {
 // the config struct. It will not write changes to disk ever and is
 // intended to be used prior to SaveDefault().
 func (c *JSONCfg) SetDefault(key string, value interface{}) {
-	c.config[key] = value
-	c.diff[key] = value
+	c.config.Set(key, value)
+	c.diff.Set(key, value)
 }
 
 func (c *JSONCfg) write(force bool) error {
@@ -161,7 +162,7 @@ func (c *JSONCfg) write(force bool) error {
 		return nil
 	}
 
-	var config []byte
+	var config string
 	var e error
 
 	e = os.MkdirAll(pathname.Dirname(c.File), os.ModePerm)
@@ -169,9 +170,9 @@ func (c *JSONCfg) write(force bool) error {
 		return e
 	}
 
-	if config, e = json.MarshalIndent(c.config, "", "  "); e != nil {
+	if config, e = c.config.GetBlobIndent("", "  "); e != nil {
 		return e
 	}
 
-	return ioutil.WriteFile(c.File, config, 0600)
+	return ioutil.WriteFile(c.File, []byte(config), 0600)
 }

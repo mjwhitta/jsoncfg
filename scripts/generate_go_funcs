@@ -29,14 +29,20 @@ generate_funcs() {
 
     for i in "" "diff"; do
         cat <<EOF
+// Get${i^}$t will return the value for the specified key(s) as a
+// $rt.
 func (c *JSONCfg) Get${i^}$t(key ...interface{}) $rt {
     return c.${i:-config}.Get$t(key...)
 }
 
+// Get${i^}${t}Array will return an array for the specified key(s) as a
+// []$rt.
 func (c *JSONCfg) Get${i^}${t}Array(key ...interface{}) []$rt {
     return c.${i:-config}.Get${t}Array(key...)
 }
 
+// Get${i^}${t}Map will return a map for the specified key(s) as a
+// map[string]$rt.
 func (c *JSONCfg) Get${i^}${t}Map(key ...interface{}) map[string]$rt {
     return c.${i:-config}.Get${t}Map(key...)
 }

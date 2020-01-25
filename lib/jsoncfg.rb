@@ -130,6 +130,10 @@ class JSONConfig
         write_config
     end
 
+    def to_s
+        return JSON.pretty_generate(@config)
+    end
+
     def unsetbool(key)
         @config[key] = false
         @diff[key] = false

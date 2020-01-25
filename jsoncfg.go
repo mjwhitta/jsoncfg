@@ -157,6 +157,12 @@ func (c *JSONCfg) SetDefault(key string, value interface{}) {
 	c.diff.Set(key, value)
 }
 
+func (c *JSONCfg) String() string {
+	var toString string
+	toString, _ = c.config.GetBlobIndent("", "  ")
+	return toString
+}
+
 func (c *JSONCfg) write(force bool) error {
 	if !c.autosave && !force {
 		return nil

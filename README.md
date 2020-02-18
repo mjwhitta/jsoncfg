@@ -52,38 +52,74 @@ func main() {
         }
     }()
 
+    var a bool
+    var b string
+    var c int64
+    var d []string
+    var e = map[string]interface{}{}
+    var err error
+    var f float64
+
+    fmt.Println(config.String())
+
     // Check if config has a key and print it
     if config.Has("a") {
-        fmt.Println(config.GetBool("a"))
+        if a, err = config.GetBool("a"); err != nil {
+            panic(err)
+        }
+        fmt.Printf("a = %v\n", a)
     }
 
     // Set new value (changes aren't written unless autosave was used)
     config.Set("a", false)
-    fmt.Println(config.GetBool("a"))
+
+    a, _ = config.GetBool("a")
+    fmt.Printf("a is now = %v\n", a)
+
+    config.Reset()
+    fmt.Println("Config reset")
+
+    a, _ = config.GetBool("a")
+    fmt.Printf("a on disk still = %v\n", a)
+
+    config.Set("a", false)
 
     // Manually save changes
     config.Save()
+    fmt.Println("Config saved")
 
     // More changes plus save
     config.Set("b", "asdfasdf")
     config.Set("c", 4321)
     config.Set("d", []string{"asdf", "asdf"})
     config.Save()
-    fmt.Println(config.GetString("b"))
-    fmt.Println(config.GetInt64("c"))
-    fmt.Println(config.GetStringArray("d"))
+
+    b, _ = config.GetString("b")
+    c, _ = config.GetInt64("c")
+    d, _ = config.GetStringArray("d")
+
+    fmt.Printf("b = %s\n", b)
+    fmt.Printf("c = %d\n", c)
+    fmt.Printf("d = %v\n", d)
 
     // You can also reset changes (unless autosave was used)
     config.Set(
         "e",
         map[string]interface{}{"bool": true, "string": "test"},
     )
-    fmt.Println(config.GetMap("e"))
+
+    e, _ = config.GetMap("e")
+    fmt.Printf("e = %+v\n", e)
+
     config.Reset()
-    fmt.Println(config.GetMap("e"))
+    fmt.Println("Config reset")
+
+    e, _ = config.GetMap("e")
+    fmt.Printf("e = %+v\n", e)
 
     // Get nested keys
-    fmt.Println(config.GetFloat64("e", "float"))
+    f, _ = config.GetFloat64("e", "float")
+    fmt.Printf("e->float = %0.1f\n", f)
 
     // Only want to save the changes from default values?
     config.Set("a", false)

@@ -3,468 +3,572 @@ package jsoncfg
 
 // Get will return the value for the specified key(s) as a
 // interface{}.
-func (c *JSONCfg) Get(key ...interface{}) interface{} {
+func (c *JSONCfg) Get(key ...interface{}) (interface{}, error) {
 	return c.config.Get(key...)
 }
 
 // GetArray will return an array for the specified key(s) as a
 // []interface{}.
-func (c *JSONCfg) GetArray(key ...interface{}) []interface{} {
+func (c *JSONCfg) GetArray(
+	key ...interface{},
+) ([]interface{}, error) {
 	return c.config.GetArray(key...)
 }
 
 // GetMap will return a map for the specified key(s) as a
 // map[string]interface{}.
-func (c *JSONCfg) GetMap(key ...interface{}) map[string]interface{} {
+func (c *JSONCfg) GetMap(
+	key ...interface{},
+) (map[string]interface{}, error) {
 	return c.config.GetMap(key...)
 }
 
 // GetDiff will return the value for the specified key(s) as a
 // interface{}.
-func (c *JSONCfg) GetDiff(key ...interface{}) interface{} {
+func (c *JSONCfg) GetDiff(key ...interface{}) (interface{}, error) {
 	return c.diff.Get(key...)
 }
 
 // GetDiffArray will return an array for the specified key(s) as a
 // []interface{}.
-func (c *JSONCfg) GetDiffArray(key ...interface{}) []interface{} {
+func (c *JSONCfg) GetDiffArray(
+	key ...interface{},
+) ([]interface{}, error) {
 	return c.diff.GetArray(key...)
 }
 
 // GetDiffMap will return a map for the specified key(s) as a
 // map[string]interface{}.
-func (c *JSONCfg) GetDiffMap(key ...interface{}) map[string]interface{} {
+func (c *JSONCfg) GetDiffMap(
+	key ...interface{},
+) (map[string]interface{}, error) {
 	return c.diff.GetMap(key...)
 }
 
 // GetBool will return the value for the specified key(s) as a
 // bool.
-func (c *JSONCfg) GetBool(key ...interface{}) bool {
+func (c *JSONCfg) GetBool(key ...interface{}) (bool, error) {
 	return c.config.GetBool(key...)
 }
 
 // GetBoolArray will return an array for the specified key(s) as a
 // []bool.
-func (c *JSONCfg) GetBoolArray(key ...interface{}) []bool {
+func (c *JSONCfg) GetBoolArray(
+	key ...interface{},
+) ([]bool, error) {
 	return c.config.GetBoolArray(key...)
 }
 
 // GetBoolMap will return a map for the specified key(s) as a
 // map[string]bool.
-func (c *JSONCfg) GetBoolMap(key ...interface{}) map[string]bool {
+func (c *JSONCfg) GetBoolMap(
+	key ...interface{},
+) (map[string]bool, error) {
 	return c.config.GetBoolMap(key...)
 }
 
 // GetDiffBool will return the value for the specified key(s) as a
 // bool.
-func (c *JSONCfg) GetDiffBool(key ...interface{}) bool {
+func (c *JSONCfg) GetDiffBool(key ...interface{}) (bool, error) {
 	return c.diff.GetBool(key...)
 }
 
 // GetDiffBoolArray will return an array for the specified key(s) as a
 // []bool.
-func (c *JSONCfg) GetDiffBoolArray(key ...interface{}) []bool {
+func (c *JSONCfg) GetDiffBoolArray(
+	key ...interface{},
+) ([]bool, error) {
 	return c.diff.GetBoolArray(key...)
 }
 
 // GetDiffBoolMap will return a map for the specified key(s) as a
 // map[string]bool.
-func (c *JSONCfg) GetDiffBoolMap(key ...interface{}) map[string]bool {
+func (c *JSONCfg) GetDiffBoolMap(
+	key ...interface{},
+) (map[string]bool, error) {
 	return c.diff.GetBoolMap(key...)
 }
 
 // GetFloat32 will return the value for the specified key(s) as a
 // float32.
-func (c *JSONCfg) GetFloat32(key ...interface{}) float32 {
+func (c *JSONCfg) GetFloat32(key ...interface{}) (float32, error) {
 	return c.config.GetFloat32(key...)
 }
 
 // GetFloat32Array will return an array for the specified key(s) as a
 // []float32.
-func (c *JSONCfg) GetFloat32Array(key ...interface{}) []float32 {
+func (c *JSONCfg) GetFloat32Array(
+	key ...interface{},
+) ([]float32, error) {
 	return c.config.GetFloat32Array(key...)
 }
 
 // GetFloat32Map will return a map for the specified key(s) as a
 // map[string]float32.
-func (c *JSONCfg) GetFloat32Map(key ...interface{}) map[string]float32 {
+func (c *JSONCfg) GetFloat32Map(
+	key ...interface{},
+) (map[string]float32, error) {
 	return c.config.GetFloat32Map(key...)
 }
 
 // GetDiffFloat32 will return the value for the specified key(s) as a
 // float32.
-func (c *JSONCfg) GetDiffFloat32(key ...interface{}) float32 {
+func (c *JSONCfg) GetDiffFloat32(key ...interface{}) (float32, error) {
 	return c.diff.GetFloat32(key...)
 }
 
 // GetDiffFloat32Array will return an array for the specified key(s) as a
 // []float32.
-func (c *JSONCfg) GetDiffFloat32Array(key ...interface{}) []float32 {
+func (c *JSONCfg) GetDiffFloat32Array(
+	key ...interface{},
+) ([]float32, error) {
 	return c.diff.GetFloat32Array(key...)
 }
 
 // GetDiffFloat32Map will return a map for the specified key(s) as a
 // map[string]float32.
-func (c *JSONCfg) GetDiffFloat32Map(key ...interface{}) map[string]float32 {
+func (c *JSONCfg) GetDiffFloat32Map(
+	key ...interface{},
+) (map[string]float32, error) {
 	return c.diff.GetFloat32Map(key...)
 }
 
 // GetFloat64 will return the value for the specified key(s) as a
 // float64.
-func (c *JSONCfg) GetFloat64(key ...interface{}) float64 {
+func (c *JSONCfg) GetFloat64(key ...interface{}) (float64, error) {
 	return c.config.GetFloat64(key...)
 }
 
 // GetFloat64Array will return an array for the specified key(s) as a
 // []float64.
-func (c *JSONCfg) GetFloat64Array(key ...interface{}) []float64 {
+func (c *JSONCfg) GetFloat64Array(
+	key ...interface{},
+) ([]float64, error) {
 	return c.config.GetFloat64Array(key...)
 }
 
 // GetFloat64Map will return a map for the specified key(s) as a
 // map[string]float64.
-func (c *JSONCfg) GetFloat64Map(key ...interface{}) map[string]float64 {
+func (c *JSONCfg) GetFloat64Map(
+	key ...interface{},
+) (map[string]float64, error) {
 	return c.config.GetFloat64Map(key...)
 }
 
 // GetDiffFloat64 will return the value for the specified key(s) as a
 // float64.
-func (c *JSONCfg) GetDiffFloat64(key ...interface{}) float64 {
+func (c *JSONCfg) GetDiffFloat64(key ...interface{}) (float64, error) {
 	return c.diff.GetFloat64(key...)
 }
 
 // GetDiffFloat64Array will return an array for the specified key(s) as a
 // []float64.
-func (c *JSONCfg) GetDiffFloat64Array(key ...interface{}) []float64 {
+func (c *JSONCfg) GetDiffFloat64Array(
+	key ...interface{},
+) ([]float64, error) {
 	return c.diff.GetFloat64Array(key...)
 }
 
 // GetDiffFloat64Map will return a map for the specified key(s) as a
 // map[string]float64.
-func (c *JSONCfg) GetDiffFloat64Map(key ...interface{}) map[string]float64 {
+func (c *JSONCfg) GetDiffFloat64Map(
+	key ...interface{},
+) (map[string]float64, error) {
 	return c.diff.GetFloat64Map(key...)
 }
 
 // GetInt will return the value for the specified key(s) as a
 // int.
-func (c *JSONCfg) GetInt(key ...interface{}) int {
+func (c *JSONCfg) GetInt(key ...interface{}) (int, error) {
 	return c.config.GetInt(key...)
 }
 
 // GetIntArray will return an array for the specified key(s) as a
 // []int.
-func (c *JSONCfg) GetIntArray(key ...interface{}) []int {
+func (c *JSONCfg) GetIntArray(
+	key ...interface{},
+) ([]int, error) {
 	return c.config.GetIntArray(key...)
 }
 
 // GetIntMap will return a map for the specified key(s) as a
 // map[string]int.
-func (c *JSONCfg) GetIntMap(key ...interface{}) map[string]int {
+func (c *JSONCfg) GetIntMap(
+	key ...interface{},
+) (map[string]int, error) {
 	return c.config.GetIntMap(key...)
 }
 
 // GetDiffInt will return the value for the specified key(s) as a
 // int.
-func (c *JSONCfg) GetDiffInt(key ...interface{}) int {
+func (c *JSONCfg) GetDiffInt(key ...interface{}) (int, error) {
 	return c.diff.GetInt(key...)
 }
 
 // GetDiffIntArray will return an array for the specified key(s) as a
 // []int.
-func (c *JSONCfg) GetDiffIntArray(key ...interface{}) []int {
+func (c *JSONCfg) GetDiffIntArray(
+	key ...interface{},
+) ([]int, error) {
 	return c.diff.GetIntArray(key...)
 }
 
 // GetDiffIntMap will return a map for the specified key(s) as a
 // map[string]int.
-func (c *JSONCfg) GetDiffIntMap(key ...interface{}) map[string]int {
+func (c *JSONCfg) GetDiffIntMap(
+	key ...interface{},
+) (map[string]int, error) {
 	return c.diff.GetIntMap(key...)
 }
 
 // GetInt16 will return the value for the specified key(s) as a
 // int16.
-func (c *JSONCfg) GetInt16(key ...interface{}) int16 {
+func (c *JSONCfg) GetInt16(key ...interface{}) (int16, error) {
 	return c.config.GetInt16(key...)
 }
 
 // GetInt16Array will return an array for the specified key(s) as a
 // []int16.
-func (c *JSONCfg) GetInt16Array(key ...interface{}) []int16 {
+func (c *JSONCfg) GetInt16Array(
+	key ...interface{},
+) ([]int16, error) {
 	return c.config.GetInt16Array(key...)
 }
 
 // GetInt16Map will return a map for the specified key(s) as a
 // map[string]int16.
-func (c *JSONCfg) GetInt16Map(key ...interface{}) map[string]int16 {
+func (c *JSONCfg) GetInt16Map(
+	key ...interface{},
+) (map[string]int16, error) {
 	return c.config.GetInt16Map(key...)
 }
 
 // GetDiffInt16 will return the value for the specified key(s) as a
 // int16.
-func (c *JSONCfg) GetDiffInt16(key ...interface{}) int16 {
+func (c *JSONCfg) GetDiffInt16(key ...interface{}) (int16, error) {
 	return c.diff.GetInt16(key...)
 }
 
 // GetDiffInt16Array will return an array for the specified key(s) as a
 // []int16.
-func (c *JSONCfg) GetDiffInt16Array(key ...interface{}) []int16 {
+func (c *JSONCfg) GetDiffInt16Array(
+	key ...interface{},
+) ([]int16, error) {
 	return c.diff.GetInt16Array(key...)
 }
 
 // GetDiffInt16Map will return a map for the specified key(s) as a
 // map[string]int16.
-func (c *JSONCfg) GetDiffInt16Map(key ...interface{}) map[string]int16 {
+func (c *JSONCfg) GetDiffInt16Map(
+	key ...interface{},
+) (map[string]int16, error) {
 	return c.diff.GetInt16Map(key...)
 }
 
 // GetInt32 will return the value for the specified key(s) as a
 // int32.
-func (c *JSONCfg) GetInt32(key ...interface{}) int32 {
+func (c *JSONCfg) GetInt32(key ...interface{}) (int32, error) {
 	return c.config.GetInt32(key...)
 }
 
 // GetInt32Array will return an array for the specified key(s) as a
 // []int32.
-func (c *JSONCfg) GetInt32Array(key ...interface{}) []int32 {
+func (c *JSONCfg) GetInt32Array(
+	key ...interface{},
+) ([]int32, error) {
 	return c.config.GetInt32Array(key...)
 }
 
 // GetInt32Map will return a map for the specified key(s) as a
 // map[string]int32.
-func (c *JSONCfg) GetInt32Map(key ...interface{}) map[string]int32 {
+func (c *JSONCfg) GetInt32Map(
+	key ...interface{},
+) (map[string]int32, error) {
 	return c.config.GetInt32Map(key...)
 }
 
 // GetDiffInt32 will return the value for the specified key(s) as a
 // int32.
-func (c *JSONCfg) GetDiffInt32(key ...interface{}) int32 {
+func (c *JSONCfg) GetDiffInt32(key ...interface{}) (int32, error) {
 	return c.diff.GetInt32(key...)
 }
 
 // GetDiffInt32Array will return an array for the specified key(s) as a
 // []int32.
-func (c *JSONCfg) GetDiffInt32Array(key ...interface{}) []int32 {
+func (c *JSONCfg) GetDiffInt32Array(
+	key ...interface{},
+) ([]int32, error) {
 	return c.diff.GetInt32Array(key...)
 }
 
 // GetDiffInt32Map will return a map for the specified key(s) as a
 // map[string]int32.
-func (c *JSONCfg) GetDiffInt32Map(key ...interface{}) map[string]int32 {
+func (c *JSONCfg) GetDiffInt32Map(
+	key ...interface{},
+) (map[string]int32, error) {
 	return c.diff.GetInt32Map(key...)
 }
 
 // GetInt64 will return the value for the specified key(s) as a
 // int64.
-func (c *JSONCfg) GetInt64(key ...interface{}) int64 {
+func (c *JSONCfg) GetInt64(key ...interface{}) (int64, error) {
 	return c.config.GetInt64(key...)
 }
 
 // GetInt64Array will return an array for the specified key(s) as a
 // []int64.
-func (c *JSONCfg) GetInt64Array(key ...interface{}) []int64 {
+func (c *JSONCfg) GetInt64Array(
+	key ...interface{},
+) ([]int64, error) {
 	return c.config.GetInt64Array(key...)
 }
 
 // GetInt64Map will return a map for the specified key(s) as a
 // map[string]int64.
-func (c *JSONCfg) GetInt64Map(key ...interface{}) map[string]int64 {
+func (c *JSONCfg) GetInt64Map(
+	key ...interface{},
+) (map[string]int64, error) {
 	return c.config.GetInt64Map(key...)
 }
 
 // GetDiffInt64 will return the value for the specified key(s) as a
 // int64.
-func (c *JSONCfg) GetDiffInt64(key ...interface{}) int64 {
+func (c *JSONCfg) GetDiffInt64(key ...interface{}) (int64, error) {
 	return c.diff.GetInt64(key...)
 }
 
 // GetDiffInt64Array will return an array for the specified key(s) as a
 // []int64.
-func (c *JSONCfg) GetDiffInt64Array(key ...interface{}) []int64 {
+func (c *JSONCfg) GetDiffInt64Array(
+	key ...interface{},
+) ([]int64, error) {
 	return c.diff.GetInt64Array(key...)
 }
 
 // GetDiffInt64Map will return a map for the specified key(s) as a
 // map[string]int64.
-func (c *JSONCfg) GetDiffInt64Map(key ...interface{}) map[string]int64 {
+func (c *JSONCfg) GetDiffInt64Map(
+	key ...interface{},
+) (map[string]int64, error) {
 	return c.diff.GetInt64Map(key...)
 }
 
 // GetString will return the value for the specified key(s) as a
 // string.
-func (c *JSONCfg) GetString(key ...interface{}) string {
+func (c *JSONCfg) GetString(key ...interface{}) (string, error) {
 	return c.config.GetString(key...)
 }
 
 // GetStringArray will return an array for the specified key(s) as a
 // []string.
-func (c *JSONCfg) GetStringArray(key ...interface{}) []string {
+func (c *JSONCfg) GetStringArray(
+	key ...interface{},
+) ([]string, error) {
 	return c.config.GetStringArray(key...)
 }
 
 // GetStringMap will return a map for the specified key(s) as a
 // map[string]string.
-func (c *JSONCfg) GetStringMap(key ...interface{}) map[string]string {
+func (c *JSONCfg) GetStringMap(
+	key ...interface{},
+) (map[string]string, error) {
 	return c.config.GetStringMap(key...)
 }
 
 // GetDiffString will return the value for the specified key(s) as a
 // string.
-func (c *JSONCfg) GetDiffString(key ...interface{}) string {
+func (c *JSONCfg) GetDiffString(key ...interface{}) (string, error) {
 	return c.diff.GetString(key...)
 }
 
 // GetDiffStringArray will return an array for the specified key(s) as a
 // []string.
-func (c *JSONCfg) GetDiffStringArray(key ...interface{}) []string {
+func (c *JSONCfg) GetDiffStringArray(
+	key ...interface{},
+) ([]string, error) {
 	return c.diff.GetStringArray(key...)
 }
 
 // GetDiffStringMap will return a map for the specified key(s) as a
 // map[string]string.
-func (c *JSONCfg) GetDiffStringMap(key ...interface{}) map[string]string {
+func (c *JSONCfg) GetDiffStringMap(
+	key ...interface{},
+) (map[string]string, error) {
 	return c.diff.GetStringMap(key...)
 }
 
 // GetUint will return the value for the specified key(s) as a
 // uint.
-func (c *JSONCfg) GetUint(key ...interface{}) uint {
+func (c *JSONCfg) GetUint(key ...interface{}) (uint, error) {
 	return c.config.GetUint(key...)
 }
 
 // GetUintArray will return an array for the specified key(s) as a
 // []uint.
-func (c *JSONCfg) GetUintArray(key ...interface{}) []uint {
+func (c *JSONCfg) GetUintArray(
+	key ...interface{},
+) ([]uint, error) {
 	return c.config.GetUintArray(key...)
 }
 
 // GetUintMap will return a map for the specified key(s) as a
 // map[string]uint.
-func (c *JSONCfg) GetUintMap(key ...interface{}) map[string]uint {
+func (c *JSONCfg) GetUintMap(
+	key ...interface{},
+) (map[string]uint, error) {
 	return c.config.GetUintMap(key...)
 }
 
 // GetDiffUint will return the value for the specified key(s) as a
 // uint.
-func (c *JSONCfg) GetDiffUint(key ...interface{}) uint {
+func (c *JSONCfg) GetDiffUint(key ...interface{}) (uint, error) {
 	return c.diff.GetUint(key...)
 }
 
 // GetDiffUintArray will return an array for the specified key(s) as a
 // []uint.
-func (c *JSONCfg) GetDiffUintArray(key ...interface{}) []uint {
+func (c *JSONCfg) GetDiffUintArray(
+	key ...interface{},
+) ([]uint, error) {
 	return c.diff.GetUintArray(key...)
 }
 
 // GetDiffUintMap will return a map for the specified key(s) as a
 // map[string]uint.
-func (c *JSONCfg) GetDiffUintMap(key ...interface{}) map[string]uint {
+func (c *JSONCfg) GetDiffUintMap(
+	key ...interface{},
+) (map[string]uint, error) {
 	return c.diff.GetUintMap(key...)
 }
 
 // GetUint16 will return the value for the specified key(s) as a
 // uint16.
-func (c *JSONCfg) GetUint16(key ...interface{}) uint16 {
+func (c *JSONCfg) GetUint16(key ...interface{}) (uint16, error) {
 	return c.config.GetUint16(key...)
 }
 
 // GetUint16Array will return an array for the specified key(s) as a
 // []uint16.
-func (c *JSONCfg) GetUint16Array(key ...interface{}) []uint16 {
+func (c *JSONCfg) GetUint16Array(
+	key ...interface{},
+) ([]uint16, error) {
 	return c.config.GetUint16Array(key...)
 }
 
 // GetUint16Map will return a map for the specified key(s) as a
 // map[string]uint16.
-func (c *JSONCfg) GetUint16Map(key ...interface{}) map[string]uint16 {
+func (c *JSONCfg) GetUint16Map(
+	key ...interface{},
+) (map[string]uint16, error) {
 	return c.config.GetUint16Map(key...)
 }
 
 // GetDiffUint16 will return the value for the specified key(s) as a
 // uint16.
-func (c *JSONCfg) GetDiffUint16(key ...interface{}) uint16 {
+func (c *JSONCfg) GetDiffUint16(key ...interface{}) (uint16, error) {
 	return c.diff.GetUint16(key...)
 }
 
 // GetDiffUint16Array will return an array for the specified key(s) as a
 // []uint16.
-func (c *JSONCfg) GetDiffUint16Array(key ...interface{}) []uint16 {
+func (c *JSONCfg) GetDiffUint16Array(
+	key ...interface{},
+) ([]uint16, error) {
 	return c.diff.GetUint16Array(key...)
 }
 
 // GetDiffUint16Map will return a map for the specified key(s) as a
 // map[string]uint16.
-func (c *JSONCfg) GetDiffUint16Map(key ...interface{}) map[string]uint16 {
+func (c *JSONCfg) GetDiffUint16Map(
+	key ...interface{},
+) (map[string]uint16, error) {
 	return c.diff.GetUint16Map(key...)
 }
 
 // GetUint32 will return the value for the specified key(s) as a
 // uint32.
-func (c *JSONCfg) GetUint32(key ...interface{}) uint32 {
+func (c *JSONCfg) GetUint32(key ...interface{}) (uint32, error) {
 	return c.config.GetUint32(key...)
 }
 
 // GetUint32Array will return an array for the specified key(s) as a
 // []uint32.
-func (c *JSONCfg) GetUint32Array(key ...interface{}) []uint32 {
+func (c *JSONCfg) GetUint32Array(
+	key ...interface{},
+) ([]uint32, error) {
 	return c.config.GetUint32Array(key...)
 }
 
 // GetUint32Map will return a map for the specified key(s) as a
 // map[string]uint32.
-func (c *JSONCfg) GetUint32Map(key ...interface{}) map[string]uint32 {
+func (c *JSONCfg) GetUint32Map(
+	key ...interface{},
+) (map[string]uint32, error) {
 	return c.config.GetUint32Map(key...)
 }
 
 // GetDiffUint32 will return the value for the specified key(s) as a
 // uint32.
-func (c *JSONCfg) GetDiffUint32(key ...interface{}) uint32 {
+func (c *JSONCfg) GetDiffUint32(key ...interface{}) (uint32, error) {
 	return c.diff.GetUint32(key...)
 }
 
 // GetDiffUint32Array will return an array for the specified key(s) as a
 // []uint32.
-func (c *JSONCfg) GetDiffUint32Array(key ...interface{}) []uint32 {
+func (c *JSONCfg) GetDiffUint32Array(
+	key ...interface{},
+) ([]uint32, error) {
 	return c.diff.GetUint32Array(key...)
 }
 
 // GetDiffUint32Map will return a map for the specified key(s) as a
 // map[string]uint32.
-func (c *JSONCfg) GetDiffUint32Map(key ...interface{}) map[string]uint32 {
+func (c *JSONCfg) GetDiffUint32Map(
+	key ...interface{},
+) (map[string]uint32, error) {
 	return c.diff.GetUint32Map(key...)
 }
 
 // GetUint64 will return the value for the specified key(s) as a
 // uint64.
-func (c *JSONCfg) GetUint64(key ...interface{}) uint64 {
+func (c *JSONCfg) GetUint64(key ...interface{}) (uint64, error) {
 	return c.config.GetUint64(key...)
 }
 
 // GetUint64Array will return an array for the specified key(s) as a
 // []uint64.
-func (c *JSONCfg) GetUint64Array(key ...interface{}) []uint64 {
+func (c *JSONCfg) GetUint64Array(
+	key ...interface{},
+) ([]uint64, error) {
 	return c.config.GetUint64Array(key...)
 }
 
 // GetUint64Map will return a map for the specified key(s) as a
 // map[string]uint64.
-func (c *JSONCfg) GetUint64Map(key ...interface{}) map[string]uint64 {
+func (c *JSONCfg) GetUint64Map(
+	key ...interface{},
+) (map[string]uint64, error) {
 	return c.config.GetUint64Map(key...)
 }
 
 // GetDiffUint64 will return the value for the specified key(s) as a
 // uint64.
-func (c *JSONCfg) GetDiffUint64(key ...interface{}) uint64 {
+func (c *JSONCfg) GetDiffUint64(key ...interface{}) (uint64, error) {
 	return c.diff.GetUint64(key...)
 }
 
 // GetDiffUint64Array will return an array for the specified key(s) as a
 // []uint64.
-func (c *JSONCfg) GetDiffUint64Array(key ...interface{}) []uint64 {
+func (c *JSONCfg) GetDiffUint64Array(
+	key ...interface{},
+) ([]uint64, error) {
 	return c.diff.GetUint64Array(key...)
 }
 
 // GetDiffUint64Map will return a map for the specified key(s) as a
 // map[string]uint64.
-func (c *JSONCfg) GetDiffUint64Map(key ...interface{}) map[string]uint64 {
+func (c *JSONCfg) GetDiffUint64Map(
+	key ...interface{},
+) (map[string]uint64, error) {
 	return c.diff.GetUint64Map(key...)
 }

@@ -18,9 +18,11 @@ type JSONCfg struct {
 	defaultConfig string
 	diff          *jq.JSON
 	File          string
+	inMemory      bool
 }
 
-// New is a JSONCfg constructor where autosave is false.
+// New will return a pointer to a new JSONCfg instance that requires
+// manual calls to Save() to write the config to disk.
 func New(file string) *JSONCfg {
 	var config *jq.JSON
 	var diff *jq.JSON
@@ -34,10 +36,12 @@ func New(file string) *JSONCfg {
 		defaultConfig: "",
 		diff:          diff,
 		File:          pathname.ExpandPath(file),
+		inMemory:      false,
 	}
 }
 
-// NewAutosave is a JSONCfg constructor where autosave is true.
+// NewAutosave will return a pointer to a new JSONCfg instance that is
+// immediately written to disk on change.
 func NewAutosave(file string) *JSONCfg {
 	var c *JSONCfg
 
@@ -45,6 +49,25 @@ func NewAutosave(file string) *JSONCfg {
 	c.autosave = true
 
 	return c
+}
+
+// NewInMemory will return a pointer to a new JSONCfg instance that
+// exists in memory and is never written to disk. This also means the
+// config can not be read back from disk.
+func NewInMemory() *JSONCfg {
+	var config *jq.JSON
+	var diff *jq.JSON
+
+	config, _ = jq.New("{}")
+	diff, _ = jq.New("{}")
+
+	return &JSONCfg{
+		autosave:      false,
+		config:        config,
+		defaultConfig: "",
+		diff:          diff,
+		inMemory:      true,
+	}
 }
 
 // Clear will erase the config struct.
@@ -73,12 +96,17 @@ func (c *JSONCfg) Default() error {
 // Has will return true if the config struct has the specified key,
 // false otherwise.
 func (c *JSONCfg) Has(key string) bool {
-	return c.diff.Has(key)
+	return c.config.Has(key)
 }
 
-func (c *JSONCfg) read() error {
+// Reset will read the config from disk, erasing any unsaved changes.
+func (c *JSONCfg) Reset() error {
 	var config []byte
 	var e error
+
+	if c.inMemory {
+		return nil
+	}
 
 	if !pathname.DoesExist(c.File) {
 		c.Default()
@@ -94,11 +122,6 @@ func (c *JSONCfg) read() error {
 	}
 
 	return c.diff.SetBlob(c.defaultConfig)
-}
-
-// Reset will read the config from disk, erasing any unsaved changes.
-func (c *JSONCfg) Reset() error {
-	return c.read()
 }
 
 // Save will save any unsaved changes to disk.
@@ -164,7 +187,7 @@ func (c *JSONCfg) String() string {
 }
 
 func (c *JSONCfg) write(force bool) error {
-	if !c.autosave && !force {
+	if c.inMemory || (!c.autosave && !force) {
 		return nil
 	}
 

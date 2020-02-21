@@ -70,15 +70,14 @@ func NewInMemory() *JSONCfg {
 	}
 }
 
-// Clear will erase the config struct.
+// Clear will erase the config.
 func (c *JSONCfg) Clear() {
 	c.config.SetBlob("{}")
 	c.diff.SetBlob("{}")
 	c.write(false)
 }
 
-// Default will return the config struct to a pre-configured default
-// state.
+// Default will return the config to a pre-configured default state.
 func (c *JSONCfg) Default() error {
 	var e error
 
@@ -93,10 +92,16 @@ func (c *JSONCfg) Default() error {
 	return c.write(false)
 }
 
-// Has will return true if the config struct has the specified key,
-// false otherwise.
-func (c *JSONCfg) Has(key string) bool {
-	return c.config.Has(key)
+// GetKeys will return a list of valid keys if the specified key
+// returns an arry or map.
+func (c *JSONCfg) GetKeys(key ...interface{}) ([]string, error) {
+	return c.config.GetKeys(key)
+}
+
+// HasKey will return true if the config has the specified key, false
+// otherwise.
+func (c *JSONCfg) HasKey(key ...interface{}) bool {
+	return c.config.HasKey(key...)
 }
 
 // Reset will read the config from disk, erasing any unsaved changes.
@@ -165,7 +170,7 @@ func (c *JSONCfg) SaveDefault() error {
 }
 
 // Set will set the specified value for the specified key in the
-// config struct.
+// config.
 func (c *JSONCfg) Set(key string, value interface{}) error {
 	c.config.Set(key, value)
 	c.diff.Set(key, value)
@@ -173,13 +178,14 @@ func (c *JSONCfg) Set(key string, value interface{}) error {
 }
 
 // SetDefault will set the specified value for the specified key in
-// the config struct. It will not write changes to disk ever and is
-// intended to be used prior to SaveDefault().
+// the config. It will not write changes to disk ever and is intended
+// to be used prior to SaveDefault().
 func (c *JSONCfg) SetDefault(key string, value interface{}) {
 	c.config.Set(key, value)
 	c.diff.Set(key, value)
 }
 
+// String will return a string representation of a config.
 func (c *JSONCfg) String() string {
 	var toString string
 	toString, _ = c.config.GetBlobIndent("", "  ")

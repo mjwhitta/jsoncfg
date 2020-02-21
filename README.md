@@ -63,7 +63,7 @@ func main() {
     fmt.Println(config.String())
 
     // Check if config has a key and print it
-    if config.Has("a") {
+    if config.HasKey("a") {
         if a, err = config.GetBool("a"); err != nil {
             panic(err)
         }

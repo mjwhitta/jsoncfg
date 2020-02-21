@@ -59,6 +59,7 @@ func main() {
     var e = map[string]interface{}{}
     var err error
     var f float64
+    var keys []string
 
     fmt.Println(config.String())
 
@@ -128,6 +129,25 @@ func main() {
     // Reset to default values
     config.Default()
     config.Save()
+
+    // Get sub-keys
+    if keys, err = config.GetKeys("a"); err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println(keys)
+    }
+
+    if keys, err = config.GetKeys("d"); err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println(keys)
+    }
+
+    if keys, err = config.GetKeys("e"); err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println(keys)
+    }
 }
 ```
 

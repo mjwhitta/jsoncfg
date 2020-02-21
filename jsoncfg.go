@@ -95,7 +95,7 @@ func (c *JSONCfg) Default() error {
 // GetKeys will return a list of valid keys if the specified key
 // returns an arry or map.
 func (c *JSONCfg) GetKeys(key ...interface{}) ([]string, error) {
-	return c.config.GetKeys(key)
+	return c.config.GetKeys(key...)
 }
 
 // HasKey will return true if the config has the specified key, false

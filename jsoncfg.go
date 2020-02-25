@@ -33,7 +33,7 @@ func New(file string) *JSONCfg {
 	return &JSONCfg{
 		autosave:      false,
 		config:        config,
-		defaultConfig: "",
+		defaultConfig: "{}",
 		diff:          diff,
 		File:          pathname.ExpandPath(file),
 		inMemory:      false,
@@ -64,7 +64,7 @@ func NewInMemory() *JSONCfg {
 	return &JSONCfg{
 		autosave:      false,
 		config:        config,
-		defaultConfig: "",
+		defaultConfig: "{}",
 		diff:          diff,
 		inMemory:      true,
 	}

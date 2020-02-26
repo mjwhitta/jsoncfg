@@ -65,7 +65,7 @@ func main() {
 
     // Check if config has a key and print it
     if config.HasKey("a") {
-        if a, err = config.GetBool("a"); err != nil {
+        if a, err = config.MustGetBool("a"); err != nil {
             panic(err)
         }
         fmt.Printf("a = %v\n", a)
@@ -74,13 +74,13 @@ func main() {
     // Set new value (changes aren't written unless autosave was used)
     config.Set(false, "a")
 
-    a, _ = config.GetBool("a")
+    a = config.GetBool("a")
     fmt.Printf("a is now = %v\n", a)
 
     config.Reset()
     fmt.Println("Config reset")
 
-    a, _ = config.GetBool("a")
+    a = config.GetBool("a")
     fmt.Printf("a on disk still = %v\n", a)
 
     config.Set(false, "a")
@@ -97,9 +97,9 @@ func main() {
     config.Set([]string{"blah", "blah"}, "d")
     config.Save()
 
-    b, _ = config.GetString("b")
-    c, _ = config.GetInt64("c")
-    d, _ = config.GetStringArray("d")
+    b = config.GetString("b")
+    c = config.GetInt64("c")
+    d = config.GetStringArray("d")
 
     fmt.Printf("b = %s\n", b)
     fmt.Printf("c = %d\n", c)
@@ -113,17 +113,17 @@ func main() {
         "e",
     )
 
-    e, _ = config.GetMap("e")
+    e = config.GetMap("e")
     fmt.Printf("e = %+v\n", e)
 
     config.Reset()
     fmt.Println("Config reset")
 
-    e, _ = config.GetMap("e")
+    e = config.GetMap("e")
     fmt.Printf("e = %+v\n", e)
 
     // Get nested keys
-    f, _ = config.GetFloat64("e", "float")
+    f = config.GetFloat64("e", "float")
     fmt.Printf("e->float = %0.1f\n", f)
 
     // Only want to save the changes from default values?
@@ -135,23 +135,16 @@ func main() {
     config.Save()
 
     // Get sub-keys
-    if keys, err = config.GetKeys("a"); err != nil {
+    if keys, err = config.MustGetKeys("a"); err != nil {
         fmt.Println(err.Error())
     } else {
         fmt.Println(keys)
     }
 
-    if keys, err = config.GetKeys("d"); err != nil {
-        fmt.Println(err.Error())
-    } else {
-        fmt.Println(keys)
-    }
-
-    if keys, err = config.GetKeys("e"); err != nil {
-        fmt.Println(err.Error())
-    } else {
-        fmt.Println(keys)
-    }
+    keys = config.GetKeys("d")
+    fmt.Println(keys)
+    keys = config.GetKeys("e")
+    fmt.Println(keys)
 }
 ```
 

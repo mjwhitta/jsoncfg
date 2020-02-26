@@ -72,7 +72,7 @@ func main() {
     }
 
     // Set new value (changes aren't written unless autosave was used)
-    config.Set("a", false)
+    config.Set(false, "a")
 
     a, _ = config.GetBool("a")
     fmt.Printf("a is now = %v\n", a)
@@ -83,16 +83,18 @@ func main() {
     a, _ = config.GetBool("a")
     fmt.Printf("a on disk still = %v\n", a)
 
-    config.Set("a", false)
+    config.Set(false, "a")
 
     // Manually save changes
     config.Save()
     fmt.Println("Config saved")
 
     // More changes plus save
-    config.Set("b", "asdfasdf")
-    config.Set("c", 4321)
-    config.Set("d", []string{"asdf", "asdf"})
+    config.Set("asdfasdf", "b")
+    config.Set(4321, "c")
+    config.Set("asdf", "d", 0)
+    config.Set("asdf", "d", 1)
+    config.Set([]string{"blah", "blah"}, "d")
     config.Save()
 
     b, _ = config.GetString("b")
@@ -104,9 +106,11 @@ func main() {
     fmt.Printf("d = %v\n", d)
 
     // You can also reset changes (unless autosave was used)
+    config.Set(true, "e", "bool")
+    config.Set("test", "e", "string")
     config.Set(
-        "e",
         map[string]interface{}{"bool": true, "string": "test"},
+        "e",
     )
 
     e, _ = config.GetMap("e")
@@ -123,7 +127,7 @@ func main() {
     fmt.Printf("e->float = %0.1f\n", f)
 
     // Only want to save the changes from default values?
-    config.Set("a", false)
+    config.Set(false, "a")
     config.SaveDiff() // Diffs are calculated from last manual save
 
     // Reset to default values

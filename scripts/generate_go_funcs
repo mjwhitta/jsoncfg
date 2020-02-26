@@ -31,24 +31,42 @@ generate_funcs() {
         cat <<EOF
 // Get${i^}$t will return the value for the specified key(s) as a
 // $rt.
-func (c *JSONCfg) Get${i^}$t(key ...interface{}) ($rt, error) {
+func (c *JSONCfg) Get${i^}$t(key ...interface{}) $rt {
     return c.${i:-config}.Get$t(key...)
 }
 
-// Get${i^}${t}Array will return an array for the specified key(s) as a
-// []$rt.
-func (c *JSONCfg) Get${i^}${t}Array(
-    key ...interface{},
-) ([]$rt, error) {
+// Get${i^}${t}Array will return an array for the specified key(s) as
+// a []$rt.
+func (c *JSONCfg) Get${i^}${t}Array(key ...interface{}) []$rt {
     return c.${i:-config}.Get${t}Array(key...)
 }
 
 // Get${i^}${t}Map will return a map for the specified key(s) as a
 // map[string]$rt.
-func (c *JSONCfg) Get${i^}${t}Map(
+func (c *JSONCfg) Get${i^}${t}Map(key ...interface{}) map[string]$rt {
+    return c.${i:-config}.Get${t}Map(key...)
+}
+
+// MustGet${i^}$t will return the value for the specified key(s) as a
+// $rt.
+func (c *JSONCfg) MustGet${i^}$t(key ...interface{}) ($rt, error) {
+    return c.${i:-config}.MustGet$t(key...)
+}
+
+// MustGet${i^}${t}Array will return an array for the specified key(s)
+// as a []$rt.
+func (c *JSONCfg) MustGet${i^}${t}Array(
+    key ...interface{},
+) ([]$rt, error) {
+    return c.${i:-config}.MustGet${t}Array(key...)
+}
+
+// MustGet${i^}${t}Map will return a map for the specified key(s) as a
+// map[string]$rt.
+func (c *JSONCfg) MustGet${i^}${t}Map(
     key ...interface{},
 ) (map[string]$rt, error) {
-    return c.${i:-config}.Get${t}Map(key...)
+    return c.${i:-config}.MustGet${t}Map(key...)
 }
 
 EOF

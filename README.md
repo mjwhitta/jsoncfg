@@ -33,13 +33,13 @@ func init() {
     // Or if you want changes to be written to disk immediately:
     // config = jsoncfg.NewAutosave("/tmp/rc")
 
-    config.SetDefault("a", true)
-    config.SetDefault("b", "asdf")
-    config.SetDefault("c", 1234)
-    config.SetDefault("d", []string{"blah", "test"})
+    config.SetDefault(true, "a")
+    config.SetDefault("asdf", "b")
+    config.SetDefault(1234, "c")
+    config.SetDefault([]string{"blah", "test"}, "d")
     config.SetDefault(
-        "e",
         map[string]interface{}{"float": 1.2, "int": 0},
+        "e",
     )
     config.SaveDefault()
     config.Reset()

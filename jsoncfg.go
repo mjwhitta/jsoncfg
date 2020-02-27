@@ -193,9 +193,7 @@ func (c *JSONCfg) SetDefault(value interface{}, keys ...interface{}) {
 
 // String will return a string representation of a config.
 func (c *JSONCfg) String() string {
-	var toString string
-	toString, _ = c.config.GetBlobIndent("", "  ")
-	return toString
+	return c.config.String()
 }
 
 func (c *JSONCfg) write(force bool) error {
@@ -211,7 +209,7 @@ func (c *JSONCfg) write(force bool) error {
 		return e
 	}
 
-	if config, e = c.config.GetBlobIndent("", "  "); e != nil {
+	if config, e = c.config.GetBlob("  "); e != nil {
 		return e
 	}
 

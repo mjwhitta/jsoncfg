@@ -3,6 +3,7 @@ package jsoncfg
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"gitlab.com/mjwhitta/jq"
 	"gitlab.com/mjwhitta/pathname"
@@ -18,62 +19,71 @@ type JSONCfg struct {
 	defaultConfig string
 	diff          *jq.JSON
 	File          string
-	inMemory      bool
 }
 
 // New will return a pointer to a new JSONCfg instance that requires
 // manual calls to Save() to write the config to disk.
-func New(file string) *JSONCfg {
+func New(file ...string) *JSONCfg {
 	var config *jq.JSON
 	var diff *jq.JSON
 
-	config, _ = jq.New("{}")
-	diff, _ = jq.New("{}")
+	config, _ = jq.New()
+	diff, _ = jq.New()
 
 	return &JSONCfg{
-		autosave:      false,
-		config:        config,
-		defaultConfig: "{}",
-		diff:          diff,
-		File:          pathname.ExpandPath(file),
-		inMemory:      false,
+		autosave: false,
+		config:   config,
+		diff:     diff,
+		File:     pathname.ExpandPath(filepath.Join(file...)),
 	}
 }
 
 // NewAutosave will return a pointer to a new JSONCfg instance that is
 // immediately written to disk on change.
-func NewAutosave(file string) *JSONCfg {
+func NewAutosave(file ...string) *JSONCfg {
 	var c *JSONCfg
 
-	c = New(file)
+	c = New(file...)
 	c.autosave = true
 
 	return c
 }
 
-// NewInMemory will return a pointer to a new JSONCfg instance that
-// exists in memory and is never written to disk. This also means the
-// config can not be read back from disk.
-func NewInMemory() *JSONCfg {
-	var config *jq.JSON
-	var diff *jq.JSON
+// Append will append the specified value to the specified key in the
+// config, if it is an array.
+func (c *JSONCfg) Append(
+	value interface{},
+	keys ...interface{},
+) error {
+	var e error
 
-	config, _ = jq.New("{}")
-	diff, _ = jq.New("{}")
-
-	return &JSONCfg{
-		autosave:      false,
-		config:        config,
-		defaultConfig: "{}",
-		diff:          diff,
-		inMemory:      true,
+	if e = c.AppendDefault(value, keys...); e != nil {
+		return e
 	}
+
+	return c.write(false)
+}
+
+// AppendDefault will append the specified value to the specified key
+// in the config, if it is an array. It will not write changes to disk
+// ever and is intended to be used prior to SaveDefault().
+func (c *JSONCfg) AppendDefault(
+	value interface{},
+	keys ...interface{},
+) error {
+	var e error
+
+	if e = c.config.Append(value, keys...); e != nil {
+		return e
+	}
+
+	return c.diff.Append(value, keys...)
 }
 
 // Clear will erase the config.
 func (c *JSONCfg) Clear() {
-	c.config.SetBlob("{}")
-	c.diff.SetBlob("{}")
+	c.config.SetBlob()
+	c.diff.SetBlob()
 	c.write(false)
 }
 
@@ -94,20 +104,20 @@ func (c *JSONCfg) Default() error {
 
 // GetKeys will return a list of valid keys if the specified key
 // returns an arry or map.
-func (c *JSONCfg) GetKeys(key ...interface{}) []string {
-	return c.config.GetKeys(key...)
+func (c *JSONCfg) GetKeys(keys ...interface{}) []string {
+	return c.config.GetKeys(keys...)
 }
 
 // HasKey will return true if the config has the specified key, false
 // otherwise.
-func (c *JSONCfg) HasKey(key ...interface{}) bool {
-	return c.config.HasKey(key...)
+func (c *JSONCfg) HasKey(keys ...interface{}) bool {
+	return c.config.HasKey(keys...)
 }
 
 // MustGetKeys will return a list of valid keys if the specified key
 // returns an arry or map.
-func (c *JSONCfg) MustGetKeys(key ...interface{}) ([]string, error) {
-	return c.config.MustGetKeys(key...)
+func (c *JSONCfg) MustGetKeys(keys ...interface{}) ([]string, error) {
+	return c.config.MustGetKeys(keys...)
 }
 
 // Reset will read the config from disk, erasing any unsaved changes.
@@ -115,7 +125,7 @@ func (c *JSONCfg) Reset() error {
 	var config []byte
 	var e error
 
-	if c.inMemory {
+	if len(c.File) == 0 {
 		return nil
 	}
 
@@ -130,6 +140,10 @@ func (c *JSONCfg) Reset() error {
 
 	if e = c.config.SetBlob(string(config)); e != nil {
 		return e
+	}
+
+	if len(c.defaultConfig) == 0 {
+		c.defaultConfig = string(config)
 	}
 
 	return c.diff.SetBlob(c.defaultConfig)
@@ -178,17 +192,29 @@ func (c *JSONCfg) SaveDefault() error {
 // Set will set the specified value for the specified key in the
 // config.
 func (c *JSONCfg) Set(value interface{}, keys ...interface{}) error {
-	c.config.Set(value, keys...)
-	c.diff.Set(value, keys...)
+	var e error
+
+	if e = c.SetDefault(value, keys...); e != nil {
+		return e
+	}
+
 	return c.write(false)
 }
 
 // SetDefault will set the specified value for the specified key in
 // the config. It will not write changes to disk ever and is intended
 // to be used prior to SaveDefault().
-func (c *JSONCfg) SetDefault(value interface{}, keys ...interface{}) {
-	c.config.Set(value, keys...)
-	c.diff.Set(value, keys...)
+func (c *JSONCfg) SetDefault(
+	value interface{},
+	keys ...interface{},
+) error {
+	var e error
+
+	if e = c.config.Set(value, keys...); e != nil {
+		return e
+	}
+
+	return c.diff.Set(value, keys...)
 }
 
 // String will return a string representation of a config.
@@ -197,7 +223,7 @@ func (c *JSONCfg) String() string {
 }
 
 func (c *JSONCfg) write(force bool) error {
-	if c.inMemory || (!c.autosave && !force) {
+	if (len(c.File) == 0) || (!c.autosave && !force) {
 		return nil
 	}
 

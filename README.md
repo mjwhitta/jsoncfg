@@ -1,5 +1,7 @@
 # jsoncfg
 
+[![Go Report Card](https://goreportcard.com/badge/gitlab.com/mjwhitta/jsoncfg)](https://goreportcard.com/report/gitlab.com/mjwhitta/jsoncfg)
+
 ## What is this?
 
 This Go module allows you to read/write and get/set configuration

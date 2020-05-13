@@ -188,7 +188,7 @@ func TestSet(t *testing.T) {
 	var cfg *jsoncfg.JSONCfg
 	var e error
 	var expected string
-	var newMap = map[string]interface{}{}
+	var newMap map[string]interface{}
 
 	cfg = jsoncfg.New(testcfg)
 	cfg.Reset()

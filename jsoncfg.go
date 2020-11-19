@@ -125,7 +125,7 @@ func (c *JSONCfg) Reset() error {
 	var config []byte
 	var e error
 
-	if len(c.File) == 0 {
+	if c.File == "" {
 		return nil
 	}
 
@@ -142,7 +142,7 @@ func (c *JSONCfg) Reset() error {
 		return e
 	}
 
-	if len(c.defaultConfig) == 0 {
+	if c.defaultConfig == "" {
 		c.defaultConfig = string(config)
 	}
 
@@ -223,7 +223,7 @@ func (c *JSONCfg) String() string {
 }
 
 func (c *JSONCfg) write(force bool) error {
-	if (len(c.File) == 0) || (!c.autosave && !force) {
+	if (c.File == "") || (!c.autosave && !force) {
 		return nil
 	}
 

@@ -14,7 +14,7 @@ options from/to a JSON file.
 Open a terminal and run the following:
 
 ```
-$ go get -u gitlab.com/mjwhitta/jsoncfg
+$ go get --ldflags="-s -w" --trimpath -u gitlab.com/mjwhitta/jsoncfg
 ```
 
 ## Usage

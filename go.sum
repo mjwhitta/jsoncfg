@@ -1,4 +1,4 @@
-gitlab.com/mjwhitta/jq v1.3.1 h1:aGPgNmGDaAUIfyT1qOBBZhBYedXOzKVU/DpfKVNSOG8=
-gitlab.com/mjwhitta/jq v1.3.1/go.mod h1:XVXaZsgHKLBvxql7riHkBAYyYnS+FT534xwcBikUsEI=
-gitlab.com/mjwhitta/pathname v1.0.8 h1:hyycAuCgrNod6GKy44zI4os/irpsNSbAtZh57okY4Rw=
-gitlab.com/mjwhitta/pathname v1.0.8/go.mod h1:OduXtPfsuCk5BMEWuDV3ipTnfyFDaFjHEmUzDWH9bss=
+gitlab.com/mjwhitta/jq v1.3.2 h1:BU7bAoYZG2Kqgqw6F33aTqqSj70hSq3BynvlN2fzixo=
+gitlab.com/mjwhitta/jq v1.3.2/go.mod h1:SsvGOJT2bFpkhfed5mBY6Do1TkFIVv0YMPmeCwTtr5w=
+gitlab.com/mjwhitta/pathname v1.0.9 h1:5nXh0FniuMxB1Bpc5hC2ZtRlff8HnDOvn8lfDVIa5Pg=
+gitlab.com/mjwhitta/pathname v1.0.9/go.mod h1:89jSeygMgYX/2gzfrZ6nC9yV8tjVbYrmMd6hk6FaHf8=

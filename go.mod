@@ -1,8 +1,8 @@
 module gitlab.com/mjwhitta/jsoncfg
 
-go 1.15
+go 1.17
 
 require (
-	gitlab.com/mjwhitta/jq v1.3.1
-	gitlab.com/mjwhitta/pathname v1.0.8
+	gitlab.com/mjwhitta/jq v1.3.2
+	gitlab.com/mjwhitta/pathname v1.0.9
 )

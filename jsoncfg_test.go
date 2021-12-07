@@ -159,7 +159,7 @@ func TestKeys(t *testing.T) {
 		t.Errorf("got: %v; want: []", actual)
 	}
 
-	expected = "Key [a] has no valid sub-keys"
+	expected = "jq: key [a] has no valid sub-keys"
 	if _, e = cfg.MustGetKeys("a"); e == nil {
 		t.Errorf("got: nil; want: %s", expected)
 	} else if e.Error() != expected {
@@ -207,21 +207,21 @@ func TestSet(t *testing.T) {
 		t.Errorf("got: %s; want: %s", actual, expected)
 	}
 
-	expected = "Key [d asdf] is not a int"
+	expected = "jq: key [d asdf] is not a int"
 	if e = cfg.Set("asdf", "d", "asdf"); e == nil {
 		t.Errorf("got: nil; want: %s", expected)
 	} else if e.Error() != expected {
 		t.Errorf("got: %s; want: %s", e.Error(), expected)
 	}
 
-	expected = "Key [e 0] is not a string"
+	expected = "jq: key [e 0] is not a string"
 	if e = cfg.Set("asdf", "e", 0); e == nil {
 		t.Errorf("got: nil; want: %s", expected)
 	} else if e.Error() != expected {
 		t.Errorf("got: %s; want: %s", e.Error(), expected)
 	}
 
-	expected = "Key [e asdf] not found"
+	expected = "jq: key [e asdf] not found"
 	if e = cfg.Set("asdf", "e", "asdf", "blah"); e == nil {
 		t.Errorf("got: nil; want: %s", expected)
 	} else if e.Error() != expected {

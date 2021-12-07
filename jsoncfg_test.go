@@ -119,9 +119,8 @@ func TestDefault(t *testing.T) {
 }
 
 func TestHasKey(t *testing.T) {
-	var cfg *jsoncfg.JSONCfg
+	var cfg *jsoncfg.JSONCfg = jsoncfg.New(testcfg)
 
-	cfg = jsoncfg.New(testcfg)
 	cfg.Reset()
 
 	if !cfg.HasKey("a") {

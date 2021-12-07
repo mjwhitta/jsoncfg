@@ -41,9 +41,8 @@ func New(file ...string) *JSONCfg {
 // NewAutosave will return a pointer to a new JSONCfg instance that is
 // immediately written to disk on change.
 func NewAutosave(file ...string) *JSONCfg {
-	var c *JSONCfg
+	var c *JSONCfg = New(file...)
 
-	c = New(file...)
 	c.autosave = true
 
 	return c

@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"gitlab.com/mjwhitta/errors"
 	"gitlab.com/mjwhitta/jq"
 	"gitlab.com/mjwhitta/pathname"
 )
@@ -91,11 +92,11 @@ func (c *JSONCfg) Default() error {
 	var e error
 
 	if e = c.config.SetBlob(c.defaultConfig); e != nil {
-		return e
+		return errors.Newf("failed to reset config: %w", e)
 	}
 
 	if e = c.diff.SetBlob(c.defaultConfig); e != nil {
-		return e
+		return errors.Newf("failed to reset diff: %w", e)
 	}
 
 	return c.write(false)
@@ -134,11 +135,11 @@ func (c *JSONCfg) Reset() error {
 	}
 
 	if config, e = ioutil.ReadFile(c.File); e != nil {
-		return e
+		return errors.Newf("failed to read config: %s", c.File, e)
 	}
 
 	if e = c.config.SetBlob(string(config)); e != nil {
-		return e
+		return errors.Newf("failed to parse config: %s", c.File, e)
 	}
 
 	if c.defaultConfig == "" {
@@ -153,7 +154,7 @@ func (c *JSONCfg) Save() error {
 	var e error
 
 	if e = c.diff.SetBlob(c.defaultConfig); e != nil {
-		return e
+		return errors.Newf("failed to save config: %w", e)
 	}
 
 	return c.write(true)
@@ -165,11 +166,11 @@ func (c *JSONCfg) SaveDiff() error {
 	var e error
 
 	if diff, e = c.diff.GetBlob(); e != nil {
-		return e
+		return errors.Newf("failed to save diff: %w", e)
 	}
 
 	if e = c.config.SetBlob(diff); e != nil {
-		return e
+		return errors.Newf("failed to parse diff: %w", e)
 	}
 
 	return c.write(true)
@@ -181,7 +182,7 @@ func (c *JSONCfg) SaveDefault() error {
 	var e error
 
 	if config, e = c.config.GetBlob(); e != nil {
-		return e
+		return errors.Newf("failed to get default config: %w", e)
 	}
 
 	c.defaultConfig = config
@@ -210,7 +211,7 @@ func (c *JSONCfg) SetDefault(
 	var e error
 
 	if e = c.config.Set(value, keys...); e != nil {
-		return e
+		return errors.Newf("failed to set key %v: %w", keys, e)
 	}
 
 	return c.diff.Set(value, keys...)
@@ -231,12 +232,22 @@ func (c *JSONCfg) write(force bool) error {
 
 	e = os.MkdirAll(pathname.Dirname(c.File), os.ModePerm)
 	if e != nil {
+		e = errors.Newf(
+			"failed to create directory tree for %s: %w",
+			c.File,
+			e,
+		)
 		return e
 	}
 
 	if config, e = c.config.GetBlob("  "); e != nil {
+		return errors.Newf("failed to read config: %w", e)
+	}
+
+	if e = ioutil.WriteFile(c.File, []byte(config), 0600); e != nil {
+		e = errors.Newf("failed to write config to %s: %w", c.File, e)
 		return e
 	}
 
-	return ioutil.WriteFile(c.File, []byte(config), 0600)
+	return nil
 }

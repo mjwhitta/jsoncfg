@@ -59,23 +59,23 @@ func TestAppend(t *testing.T) {
 	cfg.Reset()
 
 	if e = cfg.Append("asdf", "d"); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	}
 
 	expected = "[blah test asdf]"
 	actual = fmt.Sprintf("%v", cfg.GetArray("d"))
 	if actual != expected {
-		t.Errorf("got: %s; want: %s", actual, expected)
+		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
 	}
 
 	if e = cfg.Append(2, "d"); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	}
 
 	expected = "[blah test asdf 2]"
 	actual = fmt.Sprintf("%v", cfg.GetArray("d"))
 	if actual != expected {
-		t.Errorf("got: %s; want: %s", actual, expected)
+		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
 	}
 }
 
@@ -88,7 +88,7 @@ func TestClear(t *testing.T) {
 	cfg.Clear()
 
 	if cfg.String() != expected {
-		t.Errorf("got: %s; want: %s", cfg.String(), expected)
+		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), expected)
 	}
 }
 
@@ -100,21 +100,21 @@ func TestDefault(t *testing.T) {
 	cfg.Reset()
 
 	if _, e = cfg.MustGetDiffArray("d"); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	}
 
 	if cfg.String() != json {
-		t.Errorf("got: %s; want: %s", cfg.String(), json)
+		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
 	}
 
 	cfg.Set(2, "e", "anInt")
 	if cfg.String() == json {
-		t.Errorf("got: %s; want: %s", cfg.String(), json)
+		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
 	}
 
 	cfg.Default()
 	if cfg.String() != json {
-		t.Errorf("got: %s; want: %s", cfg.String(), json)
+		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
 	}
 }
 
@@ -124,11 +124,11 @@ func TestHasKey(t *testing.T) {
 	cfg.Reset()
 
 	if !cfg.HasKey("a") {
-		t.Errorf("got: false; want: true")
+		t.Errorf("\ngot: false\nwant: true")
 	}
 
 	if cfg.HasKey("asdf") {
-		t.Errorf("got: true; want: false")
+		t.Errorf("\ngot: true\nwant: false")
 	}
 }
 
@@ -143,27 +143,27 @@ func TestKeys(t *testing.T) {
 
 	expected = fmt.Sprintf("%v", []string{"0", "1"})
 	if actual, e = cfg.MustGetKeys("d"); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	} else if fmt.Sprintf("%v", actual) != expected {
-		t.Errorf("got: %v; want: %v", actual, expected)
+		t.Errorf("\ngot: %v\nwant: %v", actual, expected)
 	}
 
 	expected = fmt.Sprintf("%v", []string{"aFloat", "anInt", "more"})
 	if actual, e = cfg.MustGetKeys("e"); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	} else if fmt.Sprintf("%v", actual) != expected {
-		t.Errorf("got: %v; want: %v", actual, expected)
+		t.Errorf("\ngot: %v\nwant: %v", actual, expected)
 	}
 
 	if actual = cfg.GetKeys("a"); len(actual) > 0 {
-		t.Errorf("got: %v; want: []", actual)
+		t.Errorf("\ngot: %v\nwant: []", actual)
 	}
 
 	expected = "jq: key [a] has no valid sub-keys"
 	if _, e = cfg.MustGetKeys("a"); e == nil {
-		t.Errorf("got: nil; want: %s", expected)
+		t.Errorf("\ngot: nil\nwant: %s", expected)
 	} else if e.Error() != expected {
-		t.Errorf("got: %s; want: %s", e.Error(), expected)
+		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
 	}
 }
 
@@ -193,55 +193,73 @@ func TestSet(t *testing.T) {
 	cfg.Reset()
 
 	if cfg.String() != json {
-		t.Errorf("got: %s; want: %s", cfg.String(), json)
+		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
 	}
 
 	if e = cfg.Set("asdf", "d", 0); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	}
 
 	expected = "asdf"
 	if actual, e = cfg.MustGetString("d", 0); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	} else if actual != expected {
-		t.Errorf("got: %s; want: %s", actual, expected)
+		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
 	}
 
-	expected = "jq: key [d asdf] is not a int"
+	expected = strings.Join(
+		[]string{
+			"jsoncfg: failed to set key [d asdf]",
+			"jq: key [d asdf] is not of type int",
+		},
+		": ",
+	)
 	if e = cfg.Set("asdf", "d", "asdf"); e == nil {
-		t.Errorf("got: nil; want: %s", expected)
+		t.Errorf("\ngot: nil\nwant: %s", expected)
 	} else if e.Error() != expected {
-		t.Errorf("got: %s; want: %s", e.Error(), expected)
+		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
 	}
 
-	expected = "jq: key [e 0] is not a string"
+	expected = strings.Join(
+		[]string{
+			"jsoncfg: failed to set key [e 0]",
+			"jq: key [e 0] is not of type string",
+		},
+		": ",
+	)
 	if e = cfg.Set("asdf", "e", 0); e == nil {
-		t.Errorf("got: nil; want: %s", expected)
+		t.Errorf("\ngot: nil\nwant: %s", expected)
 	} else if e.Error() != expected {
-		t.Errorf("got: %s; want: %s", e.Error(), expected)
+		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
 	}
 
-	expected = "jq: key [e asdf] not found"
+	expected = strings.Join(
+		[]string{
+			"jsoncfg: failed to set key [e asdf blah]",
+			"jq: key [e asdf] not found",
+		},
+		": ",
+	)
 	if e = cfg.Set("asdf", "e", "asdf", "blah"); e == nil {
-		t.Errorf("got: nil; want: %s", expected)
+		t.Errorf("\ngot: nil\nwant: %s", expected)
 	} else if e.Error() != expected {
-		t.Errorf("got: %s; want: %s", e.Error(), expected)
+		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
 	}
 
 	newMap = map[string]interface{}{"asdf": "blah", "anInt": 7}
 
 	if e = cfg.Set(newMap); e != nil {
-		t.Errorf("got: %s; want: nil", e.Error())
+		t.Errorf("\ngot: %s\nwant: nil", e.Error())
 	}
 
 	actual = fmt.Sprintf("%+v", cfg.GetMap())
 	expected = fmt.Sprintf("%+v", newMap)
 	if actual != expected {
-		t.Errorf("got: %s; want: %s", actual, expected)
+		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
 	}
 
 	cfg.Reset()
 	if cfg.String() != json {
-		t.Errorf("got: %s; want: %s", cfg.String(), json)
+		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
 	}
 }

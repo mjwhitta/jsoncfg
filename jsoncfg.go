@@ -135,11 +135,11 @@ func (c *JSONCfg) Reset() error {
 	}
 
 	if config, e = ioutil.ReadFile(c.File); e != nil {
-		return errors.Newf("failed to read config: %s", c.File, e)
+        return errors.Newf("failed to read config %s: %w", c.File, e)
 	}
 
 	if e = c.config.SetBlob(string(config)); e != nil {
-		return errors.Newf("failed to parse config: %s", c.File, e)
+        return errors.Newf("failed to parse config %s: %w", c.File, e)
 	}
 
 	if c.defaultConfig == "" {

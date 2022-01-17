@@ -124,12 +124,15 @@ func (c *JSONCfg) MustGetKeys(keys ...interface{}) ([]string, error) {
 func (c *JSONCfg) Reset() error {
 	var config []byte
 	var e error
+	var ok bool
 
 	if c.File == "" {
 		return nil
 	}
 
-	if !pathname.DoesExist(c.File) {
+	if ok, e = pathname.DoesExist(c.File); e != nil {
+		return errors.Newf("file %s not accessible: %w", c.File, e)
+	} else if !ok {
 		c.Default()
 		c.write(true)
 	}

@@ -1,7 +1,8 @@
 package jsoncfg
 
+//go:generate go run ./tools/genfuncs
+
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -137,7 +138,7 @@ func (c *JSONCfg) Reset() error {
 		c.write(true)
 	}
 
-	if config, e = ioutil.ReadFile(c.File); e != nil {
+	if config, e = os.ReadFile(c.File); e != nil {
 		return errors.Newf("failed to read config %s: %w", c.File, e)
 	}
 
@@ -247,7 +248,7 @@ func (c *JSONCfg) write(force bool) error {
 		return errors.Newf("failed to read config: %w", e)
 	}
 
-	if e = ioutil.WriteFile(c.File, []byte(config), 0600); e != nil {
+	if e = os.WriteFile(c.File, []byte(config), 0600); e != nil {
 		e = errors.Newf("failed to write config to %s: %w", c.File, e)
 		return e
 	}

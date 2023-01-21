@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.com/mjwhitta/errors"
+	"github.com/mjwhitta/errors"
 )
 
 func generateFuncs(f *os.File, t string) {

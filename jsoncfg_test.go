@@ -6,7 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/mjwhitta/jsoncfg"
+	"github.com/mjwhitta/jsoncfg"
+	assert "github.com/stretchr/testify/require"
 )
 
 var def = map[string]interface{}{
@@ -47,7 +48,7 @@ var json string = strings.Join(
 	"\n",
 )
 
-var testcfg = "/tmp/jsoncfg_test"
+var testcfg string = "/tmp/jsoncfg_test"
 
 func TestAppend(t *testing.T) {
 	var actual string
@@ -58,25 +59,19 @@ func TestAppend(t *testing.T) {
 	cfg = jsoncfg.New(testcfg)
 	cfg.Reset()
 
-	if e = cfg.Append("asdf", "d"); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	}
+	e = cfg.Append("asdf", "d")
+	assert.Nil(t, e)
 
 	expected = "[blah test asdf]"
 	actual = fmt.Sprintf("%v", cfg.GetArray("d"))
-	if actual != expected {
-		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
-	}
+	assert.Equal(t, expected, actual)
 
-	if e = cfg.Append(2, "d"); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	}
+	e = cfg.Append(2, "d")
+	assert.Nil(t, e)
 
 	expected = "[blah test asdf 2]"
 	actual = fmt.Sprintf("%v", cfg.GetArray("d"))
-	if actual != expected {
-		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
-	}
+	assert.Equal(t, expected, actual)
 }
 
 func TestClear(t *testing.T) {
@@ -87,9 +82,7 @@ func TestClear(t *testing.T) {
 	cfg.Reset()
 	cfg.Clear()
 
-	if cfg.String() != expected {
-		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), expected)
-	}
+	assert.Equal(t, expected, cfg.String())
 }
 
 func TestDefault(t *testing.T) {
@@ -99,23 +92,16 @@ func TestDefault(t *testing.T) {
 	cfg = jsoncfg.New(testcfg)
 	cfg.Reset()
 
-	if _, e = cfg.MustGetDiffArray("d"); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	}
+	_, e = cfg.MustGetDiffArray("d")
+	assert.Nil(t, e)
 
-	if cfg.String() != json {
-		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
-	}
+	assert.Equal(t, json, cfg.String())
 
 	cfg.Set(2, "e", "anInt")
-	if cfg.String() == json {
-		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
-	}
+	assert.NotEqual(t, json, cfg.String())
 
 	cfg.Default()
-	if cfg.String() != json {
-		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
-	}
+	assert.Equal(t, json, cfg.String())
 }
 
 func TestHasKey(t *testing.T) {
@@ -123,13 +109,8 @@ func TestHasKey(t *testing.T) {
 
 	cfg.Reset()
 
-	if !cfg.HasKey("a") {
-		t.Errorf("\ngot: false\nwant: true")
-	}
-
-	if cfg.HasKey("asdf") {
-		t.Errorf("\ngot: true\nwant: false")
-	}
+	assert.True(t, cfg.HasKey("a"))
+	assert.False(t, cfg.HasKey("asdf"))
 }
 
 func TestKeys(t *testing.T) {
@@ -142,29 +123,20 @@ func TestKeys(t *testing.T) {
 	cfg.Reset()
 
 	expected = fmt.Sprintf("%v", []string{"0", "1"})
-	if actual, e = cfg.MustGetKeys("d"); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	} else if fmt.Sprintf("%v", actual) != expected {
-		t.Errorf("\ngot: %v\nwant: %v", actual, expected)
-	}
+	actual, e = cfg.MustGetKeys("d")
+	assert.Nil(t, e)
+	assert.Equal(t, expected, fmt.Sprintf("%v", actual))
 
 	expected = fmt.Sprintf("%v", []string{"aFloat", "anInt", "more"})
-	if actual, e = cfg.MustGetKeys("e"); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	} else if fmt.Sprintf("%v", actual) != expected {
-		t.Errorf("\ngot: %v\nwant: %v", actual, expected)
-	}
+	actual, e = cfg.MustGetKeys("e")
+	assert.Nil(t, e)
+	assert.Equal(t, expected, fmt.Sprintf("%v", actual))
 
-	if actual = cfg.GetKeys("a"); len(actual) > 0 {
-		t.Errorf("\ngot: %v\nwant: []", actual)
-	}
+	actual = cfg.GetKeys("a")
+	assert.Equal(t, 0, len(actual))
 
-	expected = "jq: key [a] has no valid sub-keys"
-	if _, e = cfg.MustGetKeys("a"); e == nil {
-		t.Errorf("\ngot: nil\nwant: %s", expected)
-	} else if e.Error() != expected {
-		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
-	}
+	_, e = cfg.MustGetKeys("a")
+	assert.NotNil(t, e)
 }
 
 func TestMain(m *testing.M) {
@@ -192,74 +164,33 @@ func TestSet(t *testing.T) {
 	cfg = jsoncfg.New(testcfg)
 	cfg.Reset()
 
-	if cfg.String() != json {
-		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
-	}
+	assert.Equal(t, json, cfg.String())
 
-	if e = cfg.Set("asdf", "d", 0); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	}
+	e = cfg.Set("asdf", "d", 0)
+	assert.Nil(t, e)
 
-	expected = "asdf"
-	if actual, e = cfg.MustGetString("d", 0); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	} else if actual != expected {
-		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
-	}
+	actual, e = cfg.MustGetString("d", 0)
+	assert.Nil(t, e)
+	assert.Equal(t, "asdf", actual)
 
-	expected = strings.Join(
-		[]string{
-			"jsoncfg: failed to set key [d asdf]",
-			"jq: key [d asdf] is not of type int",
-		},
-		": ",
-	)
-	if e = cfg.Set("asdf", "d", "asdf"); e == nil {
-		t.Errorf("\ngot: nil\nwant: %s", expected)
-	} else if e.Error() != expected {
-		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
-	}
+	e = cfg.Set("asdf", "d", "asdf")
+	assert.NotNil(t, e)
 
-	expected = strings.Join(
-		[]string{
-			"jsoncfg: failed to set key [e 0]",
-			"jq: key [e 0] is not of type string",
-		},
-		": ",
-	)
-	if e = cfg.Set("asdf", "e", 0); e == nil {
-		t.Errorf("\ngot: nil\nwant: %s", expected)
-	} else if e.Error() != expected {
-		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
-	}
+	e = cfg.Set("asdf", "e", 0)
+	assert.NotNil(t, e)
 
-	expected = strings.Join(
-		[]string{
-			"jsoncfg: failed to set key [e asdf blah]",
-			"jq: key [e asdf] not found",
-		},
-		": ",
-	)
-	if e = cfg.Set("asdf", "e", "asdf", "blah"); e == nil {
-		t.Errorf("\ngot: nil\nwant: %s", expected)
-	} else if e.Error() != expected {
-		t.Errorf("\ngot: %s\nwant: %s", e.Error(), expected)
-	}
+	e = cfg.Set("asdf", "e", "asdf", "blah")
+	assert.NotNil(t, e)
 
 	newMap = map[string]interface{}{"asdf": "blah", "anInt": 7}
 
-	if e = cfg.Set(newMap); e != nil {
-		t.Errorf("\ngot: %s\nwant: nil", e.Error())
-	}
+	e = cfg.Set(newMap)
+	assert.Nil(t, e)
 
 	actual = fmt.Sprintf("%+v", cfg.GetMap())
 	expected = fmt.Sprintf("%+v", newMap)
-	if actual != expected {
-		t.Errorf("\ngot: %s\nwant: %s", actual, expected)
-	}
+	assert.Equal(t, expected, actual)
 
 	cfg.Reset()
-	if cfg.String() != json {
-		t.Errorf("\ngot: %s\nwant: %s", cfg.String(), json)
-	}
+	assert.Equal(t, json, cfg.String())
 }

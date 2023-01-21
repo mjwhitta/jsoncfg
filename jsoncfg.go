@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"gitlab.com/mjwhitta/errors"
-	"gitlab.com/mjwhitta/jq"
-	"gitlab.com/mjwhitta/pathname"
+	"github.com/mjwhitta/errors"
+	"github.com/mjwhitta/jq"
+	"github.com/mjwhitta/pathname"
 )
 
 // JSONCfg is a struct that handles a JSON formatted config file on

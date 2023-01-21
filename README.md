@@ -2,7 +2,7 @@
 
 <a href="https://www.buymeacoffee.com/mjwhitta">🍪 Buy me a cookie</a>
 
-[![Go Report Card](https://goreportcard.com/badge/gitlab.com/mjwhitta/jsoncfg)](https://goreportcard.com/report/gitlab.com/mjwhitta/jsoncfg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mjwhitta/jsoncfg)](https://goreportcard.com/report/github.com/mjwhitta/jsoncfg)
 
 ## What is this?
 
@@ -14,7 +14,7 @@ options from/to a JSON file.
 Open a terminal and run the following:
 
 ```
-$ go get --ldflags="-s -w" --trimpath -u gitlab.com/mjwhitta/jsoncfg
+$ go get --ldflags="-s -w" --trimpath -u github.com/mjwhitta/jsoncfg
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ package main
 import (
     "fmt"
 
-    "gitlab.com/mjwhitta/jsoncfg"
+    "github.com/mjwhitta/jsoncfg"
 )
 
 var config *jsoncfg.JSONCfg
@@ -154,4 +154,4 @@ func main() {
 
 ## Links
 
-- [Source](https://gitlab.com/mjwhitta/jsoncfg)
+- [Source](https://github.com/mjwhitta/jsoncfg)

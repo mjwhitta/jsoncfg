@@ -104,7 +104,7 @@ func (c *JSONCfg) Default() error {
 }
 
 // GetKeys will return a list of valid keys if the specified key
-// returns an arry or map.
+// returns an array or map.
 func (c *JSONCfg) GetKeys(keys ...interface{}) []string {
 	return c.config.GetKeys(keys...)
 }
@@ -116,7 +116,7 @@ func (c *JSONCfg) HasKey(keys ...interface{}) bool {
 }
 
 // MustGetKeys will return a list of valid keys if the specified key
-// returns an arry or map.
+// returns an array or map.
 func (c *JSONCfg) MustGetKeys(keys ...interface{}) ([]string, error) {
 	return c.config.MustGetKeys(keys...)
 }

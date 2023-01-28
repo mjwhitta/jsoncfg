@@ -1,9 +1,11 @@
 # jsoncfg
 
-[![Yum](https://img.shields.io/badge/-Buy%20me%20a%20cookie-blue?style=for-the-badge&logo=cookiecutter)](https://www.buymeacoffee.com/mjwhitta)
+[![Yum](https://img.shields.io/badge/-Buy%20me%20a%20cookie-blue?labelColor=grey&logo=cookiecutter&style=for-the-badge)](https://www.buymeacoffee.com/mjwhitta)
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/mjwhitta/jsoncfg)](https://goreportcard.com/report/github.com/mjwhitta/jsoncfg)
-![Workflow](https://github.com/mjwhitta/jsoncfg/actions/workflows/ci.yaml/badge.svg?event=push)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mjwhitta/jsoncfg?style=for-the-badge)](https://goreportcard.com/report/github.com/mjwhitta/jsoncfg)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mjwhitta/jsoncfg/ci.yaml?style=for-the-badge)
+![Lines of code](https://img.shields.io/tokei/lines/github/mjwhitta/jsoncfg?style=for-the-badge)
+![License](https://img.shields.io/github/license/mjwhitta/jsoncfg?style=for-the-badge)
 
 ## What is this?
 
@@ -15,7 +17,7 @@ options from/to a JSON file.
 Open a terminal and run the following:
 
 ```
-$ go get --ldflags="-s -w" --trimpath -u github.com/mjwhitta/jsoncfg
+$ go get --ldflags "-s -w" --trimpath -u github.com/mjwhitta/jsoncfg
 ```
 
 ## Usage

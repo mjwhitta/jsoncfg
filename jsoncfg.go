@@ -52,10 +52,7 @@ func NewAutosave(file ...string) *JSONCfg {
 
 // Append will append the specified value to the specified key in the
 // config, if it is an array.
-func (c *JSONCfg) Append(
-	value interface{},
-	keys ...interface{},
-) error {
+func (c *JSONCfg) Append(value any, keys ...any) error {
 	var e error
 
 	if e = c.AppendDefault(value, keys...); e != nil {
@@ -68,10 +65,7 @@ func (c *JSONCfg) Append(
 // AppendDefault will append the specified value to the specified key
 // in the config, if it is an array. It will not write changes to disk
 // ever and is intended to be used prior to SaveDefault().
-func (c *JSONCfg) AppendDefault(
-	value interface{},
-	keys ...interface{},
-) error {
+func (c *JSONCfg) AppendDefault(value any, keys ...any) error {
 	var e error
 
 	if e = c.config.Append(value, keys...); e != nil {
@@ -105,19 +99,19 @@ func (c *JSONCfg) Default() error {
 
 // GetKeys will return a list of valid keys if the specified key
 // returns an array or map.
-func (c *JSONCfg) GetKeys(keys ...interface{}) []string {
+func (c *JSONCfg) GetKeys(keys ...any) []string {
 	return c.config.GetKeys(keys...)
 }
 
 // HasKey will return true if the config has the specified key, false
 // otherwise.
-func (c *JSONCfg) HasKey(keys ...interface{}) bool {
+func (c *JSONCfg) HasKey(keys ...any) bool {
 	return c.config.HasKey(keys...)
 }
 
 // MustGetKeys will return a list of valid keys if the specified key
 // returns an array or map.
-func (c *JSONCfg) MustGetKeys(keys ...interface{}) ([]string, error) {
+func (c *JSONCfg) MustGetKeys(keys ...any) ([]string, error) {
 	return c.config.MustGetKeys(keys...)
 }
 
@@ -195,7 +189,7 @@ func (c *JSONCfg) SaveDefault() error {
 
 // Set will set the specified value for the specified key in the
 // config.
-func (c *JSONCfg) Set(value interface{}, keys ...interface{}) error {
+func (c *JSONCfg) Set(value any, keys ...any) error {
 	var e error
 
 	if e = c.SetDefault(value, keys...); e != nil {
@@ -208,10 +202,7 @@ func (c *JSONCfg) Set(value interface{}, keys ...interface{}) error {
 // SetDefault will set the specified value for the specified key in
 // the config. It will not write changes to disk ever and is intended
 // to be used prior to SaveDefault().
-func (c *JSONCfg) SetDefault(
-	value interface{},
-	keys ...interface{},
-) error {
+func (c *JSONCfg) SetDefault(value any, keys ...any) error {
 	var e error
 
 	if e = c.config.Set(value, keys...); e != nil {

@@ -13,41 +13,37 @@ func generateFuncs(f *os.File, t string) {
 	var tmp string
 	var txt string = `
 // Get{A}{B} will return the value for the specified key(s) as a {C}.
-func (c *JSONCfg) Get{A}{B}(key ...interface{}) {C} {
+func (c *JSONCfg) Get{A}{B}(key ...any) {C} {
     return c.{D}.Get{B}(key...)
 }
 
 // Get{A}{B}Array will return an array for the specified key(s) as a
 // []{C}.
-func (c *JSONCfg) Get{A}{B}Array(key ...interface{}) []{C} {
+func (c *JSONCfg) Get{A}{B}Array(key ...any) []{C} {
     return c.{D}.Get{B}Array(key...)
 }
 
 // Get{A}{B}Map will return a map for the specified key(s) as a
 // map[string]{C}.
-func (c *JSONCfg) Get{A}{B}Map(key ...interface{}) map[string]{C} {
+func (c *JSONCfg) Get{A}{B}Map(key ...any) map[string]{C} {
     return c.{D}.Get{B}Map(key...)
 }
 
 // MustGet{A}{B} will return the value for the specified key(s) as a
 // {C}.
-func (c *JSONCfg) MustGet{A}{B}(key ...interface{}) ({C}, error) {
+func (c *JSONCfg) MustGet{A}{B}(key ...any) ({C}, error) {
     return c.{D}.MustGet{B}(key...)
 }
 
 // MustGet{A}{B}Array will return an array for the specified key(s) as
 // a []{C}.
-func (c *JSONCfg) MustGet{A}{B}Array(
-    key ...interface{},
-) ([]{C}, error) {
+func (c *JSONCfg) MustGet{A}{B}Array(key ...any) ([]{C}, error) {
     return c.{D}.MustGet{B}Array(key...)
 }
 
 // MustGet{A}{B}Map will return a map for the specified key(s) as a
 // map[string]{C}.
-func (c *JSONCfg) MustGet{A}{B}Map(
-    key ...interface{},
-) (map[string]{C}, error) {
+func (c *JSONCfg) MustGet{A}{B}Map(key ...any) (map[string]{C}, error) {
     return c.{D}.MustGet{B}Map(key...)
 }
 `
@@ -55,7 +51,7 @@ func (c *JSONCfg) MustGet{A}{B}Map(
 	if t != "" {
 		T = strings.ToUpper(t[0:1]) + t[1:]
 	} else {
-		rt = "interface{}"
+		rt = "any"
 	}
 
 	tmp = strings.ReplaceAll(txt, "{A}", "")

@@ -10,15 +10,15 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
-var def = map[string]interface{}{
+var def = map[string]any{
 	"a": true,
 	"b": "asdf",
 	"c": 1234,
 	"d": [2]string{"blah", "test"},
-	"e": map[string]interface{}{
+	"e": map[string]any{
 		"aFloat": 1.2,
 		"anInt":  17,
-		"more": map[string]interface{}{
+		"more": map[string]any{
 			"aFloat32": 1.2,
 			"anInt64":  19,
 		},
@@ -159,7 +159,7 @@ func TestSet(t *testing.T) {
 	var cfg *jsoncfg.JSONCfg
 	var e error
 	var expected string
-	var newMap map[string]interface{}
+	var newMap map[string]any
 
 	cfg = jsoncfg.New(testcfg)
 	cfg.Reset()
@@ -182,7 +182,7 @@ func TestSet(t *testing.T) {
 	e = cfg.Set("asdf", "e", "asdf", "blah")
 	assert.NotNil(t, e)
 
-	newMap = map[string]interface{}{"asdf": "blah", "anInt": 7}
+	newMap = map[string]any{"asdf": "blah", "anInt": 7}
 
 	e = cfg.Set(newMap)
 	assert.Nil(t, e)

@@ -43,10 +43,7 @@ func init() {
     config.SetDefault("asdf", "b")
     config.SetDefault(1234, "c")
     config.SetDefault([]string{"blah", "test"}, "d")
-    config.SetDefault(
-        map[string]interface{}{"float": 1.2, "int": 0},
-        "e",
-    )
+    config.SetDefault(map[string]any{"float": 1.2, "int": 0}, "e")
     config.SaveDefault()
     config.Reset()
 }
@@ -62,7 +59,7 @@ func main() {
     var b string
     var c int64
     var d []string
-    var e = map[string]interface{}{}
+    var e = map[string]any{}
     var err error
     var f float64
     var keys []string
@@ -114,10 +111,7 @@ func main() {
     // You can also reset changes (unless autosave was used)
     config.Set(true, "e", "bool")
     config.Set("test", "e", "string")
-    config.Set(
-        map[string]interface{}{"bool": true, "string": "test"},
-        "e",
-    )
+    config.Set(map[string]any{"bool": true, "string": "test"}, "e")
 
     e = config.GetMap("e")
     fmt.Printf("e = %+v\n", e)

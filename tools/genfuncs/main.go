@@ -82,7 +82,7 @@ func main() {
 	var e error
 	var f *os.File
 	var fn string = "generated.go"
-	var types = []string{
+	var types []string = []string{
 		"",
 		"bool",
 		"float32", "float64",

@@ -212,7 +212,7 @@ func (c *JSONCfg) SetDefault(value any, keys ...any) error {
 	return c.diff.Set(value, keys...)
 }
 
-// String will return a string representation of a config.
+// String will return a string representation of the JSONCfg.
 func (c *JSONCfg) String() string {
 	return c.config.String()
 }
@@ -239,7 +239,7 @@ func (c *JSONCfg) write(force bool) error {
 		return errors.Newf("failed to read config: %w", e)
 	}
 
-	if e = os.WriteFile(c.File, []byte(config), 0600); e != nil {
+	if e = os.WriteFile(c.File, []byte(config), 0o600); e != nil {
 		e = errors.Newf("failed to write config to %s: %w", c.File, e)
 		return e
 	}

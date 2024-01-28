@@ -32,7 +32,9 @@ func (c *JSONCfg) MustGetArray(key ...any) ([]any, error) {
 
 // MustGetMap will return a map for the specified key(s) as a
 // map[string]any.
-func (c *JSONCfg) MustGetMap(key ...any) (map[string]any, error) {
+func (c *JSONCfg) MustGetMap(
+	key ...any,
+) (map[string]any, error) {
 	return c.config.MustGetMap(key...)
 }
 
@@ -67,7 +69,9 @@ func (c *JSONCfg) MustGetDiffArray(key ...any) ([]any, error) {
 
 // MustGetDiffMap will return a map for the specified key(s) as a
 // map[string]any.
-func (c *JSONCfg) MustGetDiffMap(key ...any) (map[string]any, error) {
+func (c *JSONCfg) MustGetDiffMap(
+	key ...any,
+) (map[string]any, error) {
 	return c.diff.MustGetMap(key...)
 }
 
@@ -102,7 +106,9 @@ func (c *JSONCfg) MustGetBoolArray(key ...any) ([]bool, error) {
 
 // MustGetBoolMap will return a map for the specified key(s) as a
 // map[string]bool.
-func (c *JSONCfg) MustGetBoolMap(key ...any) (map[string]bool, error) {
+func (c *JSONCfg) MustGetBoolMap(
+	key ...any,
+) (map[string]bool, error) {
 	return c.config.MustGetBoolMap(key...)
 }
 
@@ -137,7 +143,9 @@ func (c *JSONCfg) MustGetDiffBoolArray(key ...any) ([]bool, error) {
 
 // MustGetDiffBoolMap will return a map for the specified key(s) as a
 // map[string]bool.
-func (c *JSONCfg) MustGetDiffBoolMap(key ...any) (map[string]bool, error) {
+func (c *JSONCfg) MustGetDiffBoolMap(
+	key ...any,
+) (map[string]bool, error) {
 	return c.diff.MustGetBoolMap(key...)
 }
 
@@ -172,7 +180,9 @@ func (c *JSONCfg) MustGetFloat32Array(key ...any) ([]float32, error) {
 
 // MustGetFloat32Map will return a map for the specified key(s) as a
 // map[string]float32.
-func (c *JSONCfg) MustGetFloat32Map(key ...any) (map[string]float32, error) {
+func (c *JSONCfg) MustGetFloat32Map(
+	key ...any,
+) (map[string]float32, error) {
 	return c.config.MustGetFloat32Map(key...)
 }
 
@@ -207,7 +217,9 @@ func (c *JSONCfg) MustGetDiffFloat32Array(key ...any) ([]float32, error) {
 
 // MustGetDiffFloat32Map will return a map for the specified key(s) as a
 // map[string]float32.
-func (c *JSONCfg) MustGetDiffFloat32Map(key ...any) (map[string]float32, error) {
+func (c *JSONCfg) MustGetDiffFloat32Map(
+	key ...any,
+) (map[string]float32, error) {
 	return c.diff.MustGetFloat32Map(key...)
 }
 
@@ -242,7 +254,9 @@ func (c *JSONCfg) MustGetFloat64Array(key ...any) ([]float64, error) {
 
 // MustGetFloat64Map will return a map for the specified key(s) as a
 // map[string]float64.
-func (c *JSONCfg) MustGetFloat64Map(key ...any) (map[string]float64, error) {
+func (c *JSONCfg) MustGetFloat64Map(
+	key ...any,
+) (map[string]float64, error) {
 	return c.config.MustGetFloat64Map(key...)
 }
 
@@ -277,7 +291,9 @@ func (c *JSONCfg) MustGetDiffFloat64Array(key ...any) ([]float64, error) {
 
 // MustGetDiffFloat64Map will return a map for the specified key(s) as a
 // map[string]float64.
-func (c *JSONCfg) MustGetDiffFloat64Map(key ...any) (map[string]float64, error) {
+func (c *JSONCfg) MustGetDiffFloat64Map(
+	key ...any,
+) (map[string]float64, error) {
 	return c.diff.MustGetFloat64Map(key...)
 }
 
@@ -312,7 +328,9 @@ func (c *JSONCfg) MustGetIntArray(key ...any) ([]int, error) {
 
 // MustGetIntMap will return a map for the specified key(s) as a
 // map[string]int.
-func (c *JSONCfg) MustGetIntMap(key ...any) (map[string]int, error) {
+func (c *JSONCfg) MustGetIntMap(
+	key ...any,
+) (map[string]int, error) {
 	return c.config.MustGetIntMap(key...)
 }
 
@@ -347,7 +365,9 @@ func (c *JSONCfg) MustGetDiffIntArray(key ...any) ([]int, error) {
 
 // MustGetDiffIntMap will return a map for the specified key(s) as a
 // map[string]int.
-func (c *JSONCfg) MustGetDiffIntMap(key ...any) (map[string]int, error) {
+func (c *JSONCfg) MustGetDiffIntMap(
+	key ...any,
+) (map[string]int, error) {
 	return c.diff.MustGetIntMap(key...)
 }
 
@@ -382,7 +402,9 @@ func (c *JSONCfg) MustGetInt16Array(key ...any) ([]int16, error) {
 
 // MustGetInt16Map will return a map for the specified key(s) as a
 // map[string]int16.
-func (c *JSONCfg) MustGetInt16Map(key ...any) (map[string]int16, error) {
+func (c *JSONCfg) MustGetInt16Map(
+	key ...any,
+) (map[string]int16, error) {
 	return c.config.MustGetInt16Map(key...)
 }
 
@@ -417,7 +439,9 @@ func (c *JSONCfg) MustGetDiffInt16Array(key ...any) ([]int16, error) {
 
 // MustGetDiffInt16Map will return a map for the specified key(s) as a
 // map[string]int16.
-func (c *JSONCfg) MustGetDiffInt16Map(key ...any) (map[string]int16, error) {
+func (c *JSONCfg) MustGetDiffInt16Map(
+	key ...any,
+) (map[string]int16, error) {
 	return c.diff.MustGetInt16Map(key...)
 }
 
@@ -452,7 +476,9 @@ func (c *JSONCfg) MustGetInt32Array(key ...any) ([]int32, error) {
 
 // MustGetInt32Map will return a map for the specified key(s) as a
 // map[string]int32.
-func (c *JSONCfg) MustGetInt32Map(key ...any) (map[string]int32, error) {
+func (c *JSONCfg) MustGetInt32Map(
+	key ...any,
+) (map[string]int32, error) {
 	return c.config.MustGetInt32Map(key...)
 }
 
@@ -487,7 +513,9 @@ func (c *JSONCfg) MustGetDiffInt32Array(key ...any) ([]int32, error) {
 
 // MustGetDiffInt32Map will return a map for the specified key(s) as a
 // map[string]int32.
-func (c *JSONCfg) MustGetDiffInt32Map(key ...any) (map[string]int32, error) {
+func (c *JSONCfg) MustGetDiffInt32Map(
+	key ...any,
+) (map[string]int32, error) {
 	return c.diff.MustGetInt32Map(key...)
 }
 
@@ -522,7 +550,9 @@ func (c *JSONCfg) MustGetInt64Array(key ...any) ([]int64, error) {
 
 // MustGetInt64Map will return a map for the specified key(s) as a
 // map[string]int64.
-func (c *JSONCfg) MustGetInt64Map(key ...any) (map[string]int64, error) {
+func (c *JSONCfg) MustGetInt64Map(
+	key ...any,
+) (map[string]int64, error) {
 	return c.config.MustGetInt64Map(key...)
 }
 
@@ -557,7 +587,9 @@ func (c *JSONCfg) MustGetDiffInt64Array(key ...any) ([]int64, error) {
 
 // MustGetDiffInt64Map will return a map for the specified key(s) as a
 // map[string]int64.
-func (c *JSONCfg) MustGetDiffInt64Map(key ...any) (map[string]int64, error) {
+func (c *JSONCfg) MustGetDiffInt64Map(
+	key ...any,
+) (map[string]int64, error) {
 	return c.diff.MustGetInt64Map(key...)
 }
 
@@ -592,7 +624,9 @@ func (c *JSONCfg) MustGetStringArray(key ...any) ([]string, error) {
 
 // MustGetStringMap will return a map for the specified key(s) as a
 // map[string]string.
-func (c *JSONCfg) MustGetStringMap(key ...any) (map[string]string, error) {
+func (c *JSONCfg) MustGetStringMap(
+	key ...any,
+) (map[string]string, error) {
 	return c.config.MustGetStringMap(key...)
 }
 
@@ -627,7 +661,9 @@ func (c *JSONCfg) MustGetDiffStringArray(key ...any) ([]string, error) {
 
 // MustGetDiffStringMap will return a map for the specified key(s) as a
 // map[string]string.
-func (c *JSONCfg) MustGetDiffStringMap(key ...any) (map[string]string, error) {
+func (c *JSONCfg) MustGetDiffStringMap(
+	key ...any,
+) (map[string]string, error) {
 	return c.diff.MustGetStringMap(key...)
 }
 
@@ -662,7 +698,9 @@ func (c *JSONCfg) MustGetUintArray(key ...any) ([]uint, error) {
 
 // MustGetUintMap will return a map for the specified key(s) as a
 // map[string]uint.
-func (c *JSONCfg) MustGetUintMap(key ...any) (map[string]uint, error) {
+func (c *JSONCfg) MustGetUintMap(
+	key ...any,
+) (map[string]uint, error) {
 	return c.config.MustGetUintMap(key...)
 }
 
@@ -697,7 +735,9 @@ func (c *JSONCfg) MustGetDiffUintArray(key ...any) ([]uint, error) {
 
 // MustGetDiffUintMap will return a map for the specified key(s) as a
 // map[string]uint.
-func (c *JSONCfg) MustGetDiffUintMap(key ...any) (map[string]uint, error) {
+func (c *JSONCfg) MustGetDiffUintMap(
+	key ...any,
+) (map[string]uint, error) {
 	return c.diff.MustGetUintMap(key...)
 }
 
@@ -732,7 +772,9 @@ func (c *JSONCfg) MustGetUint16Array(key ...any) ([]uint16, error) {
 
 // MustGetUint16Map will return a map for the specified key(s) as a
 // map[string]uint16.
-func (c *JSONCfg) MustGetUint16Map(key ...any) (map[string]uint16, error) {
+func (c *JSONCfg) MustGetUint16Map(
+	key ...any,
+) (map[string]uint16, error) {
 	return c.config.MustGetUint16Map(key...)
 }
 
@@ -767,7 +809,9 @@ func (c *JSONCfg) MustGetDiffUint16Array(key ...any) ([]uint16, error) {
 
 // MustGetDiffUint16Map will return a map for the specified key(s) as a
 // map[string]uint16.
-func (c *JSONCfg) MustGetDiffUint16Map(key ...any) (map[string]uint16, error) {
+func (c *JSONCfg) MustGetDiffUint16Map(
+	key ...any,
+) (map[string]uint16, error) {
 	return c.diff.MustGetUint16Map(key...)
 }
 
@@ -802,7 +846,9 @@ func (c *JSONCfg) MustGetUint32Array(key ...any) ([]uint32, error) {
 
 // MustGetUint32Map will return a map for the specified key(s) as a
 // map[string]uint32.
-func (c *JSONCfg) MustGetUint32Map(key ...any) (map[string]uint32, error) {
+func (c *JSONCfg) MustGetUint32Map(
+	key ...any,
+) (map[string]uint32, error) {
 	return c.config.MustGetUint32Map(key...)
 }
 
@@ -837,7 +883,9 @@ func (c *JSONCfg) MustGetDiffUint32Array(key ...any) ([]uint32, error) {
 
 // MustGetDiffUint32Map will return a map for the specified key(s) as a
 // map[string]uint32.
-func (c *JSONCfg) MustGetDiffUint32Map(key ...any) (map[string]uint32, error) {
+func (c *JSONCfg) MustGetDiffUint32Map(
+	key ...any,
+) (map[string]uint32, error) {
 	return c.diff.MustGetUint32Map(key...)
 }
 
@@ -872,7 +920,9 @@ func (c *JSONCfg) MustGetUint64Array(key ...any) ([]uint64, error) {
 
 // MustGetUint64Map will return a map for the specified key(s) as a
 // map[string]uint64.
-func (c *JSONCfg) MustGetUint64Map(key ...any) (map[string]uint64, error) {
+func (c *JSONCfg) MustGetUint64Map(
+	key ...any,
+) (map[string]uint64, error) {
 	return c.config.MustGetUint64Map(key...)
 }
 
@@ -907,6 +957,8 @@ func (c *JSONCfg) MustGetDiffUint64Array(key ...any) ([]uint64, error) {
 
 // MustGetDiffUint64Map will return a map for the specified key(s) as a
 // map[string]uint64.
-func (c *JSONCfg) MustGetDiffUint64Map(key ...any) (map[string]uint64, error) {
+func (c *JSONCfg) MustGetDiffUint64Map(
+	key ...any,
+) (map[string]uint64, error) {
 	return c.diff.MustGetUint64Map(key...)
 }

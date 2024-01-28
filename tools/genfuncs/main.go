@@ -43,7 +43,9 @@ func (c *JSONCfg) MustGet{A}{B}Array(key ...any) ([]{C}, error) {
 
 // MustGet{A}{B}Map will return a map for the specified key(s) as a
 // map[string]{C}.
-func (c *JSONCfg) MustGet{A}{B}Map(key ...any) (map[string]{C}, error) {
+func (c *JSONCfg) MustGet{A}{B}Map(
+    key ...any,
+) (map[string]{C}, error) {
     return c.{D}.MustGet{B}Map(key...)
 }
 `

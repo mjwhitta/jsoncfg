@@ -1,4 +1,4 @@
 package jsoncfg
 
 // Version is the package version.
-const Version = "1.6.12"
+const Version string = "1.6.13"
